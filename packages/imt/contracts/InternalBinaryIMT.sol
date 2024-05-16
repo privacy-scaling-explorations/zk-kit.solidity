@@ -2,7 +2,7 @@
 pragma solidity ^0.8.4;
 
 import {PoseidonT3} from "poseidon-solidity/PoseidonT3.sol";
-import {SNARK_SCALAR_FIELD, MAX_DEPTH} from "../Constants.sol";
+import {SNARK_SCALAR_FIELD, MAX_DEPTH} from "./Constants.sol";
 
 // Each incremental tree has certain properties and data that will
 // be used to add new leaves.

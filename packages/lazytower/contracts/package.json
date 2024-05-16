@@ -19,8 +19,8 @@
         "incremental-merkle-tree",
         "lazytower"
     ],
-    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/lazytower.sol",
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.solidity.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/lazytower",
     "author": {
         "name": "LCamel",
         "email": "lcamel@gmail.com",

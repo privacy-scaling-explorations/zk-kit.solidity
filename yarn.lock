@@ -1543,35 +1543,18 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/imt@workspace:packages/imt, imt.sol@workspace:packages/imt":
+"@zk-kit/imt@npm:^2.0.0-beta.4":
+  version: 2.0.0-beta.4
+  resolution: "@zk-kit/imt@npm:2.0.0-beta.4"
+  checksum: 10/9e042472c81bb362ad4580eb3ab69b4d07bacc224d920a5539ed326855e99c70824cc795732642318c6ea2533b48e980009968fe996e4bfde9dbfbbf4a3e14bb
+  languageName: node
+  linkType: hard
+
+"@zk-kit/lazy-imt.sol@workspace:packages/lazy-imt/contracts":
   version: 0.0.0-use.local
-  resolution: "imt.sol@workspace:packages/imt"
+  resolution: "@zk-kit/lazy-imt.sol@workspace:packages/lazy-imt/contracts"
   dependencies:
-    "@nomicfoundation/hardhat-chai-matchers": "npm:^2.0.3"
-    "@nomicfoundation/hardhat-ethers": "npm:^3.0.0"
-    "@nomicfoundation/hardhat-network-helpers": "npm:^1.0.0"
-    "@nomicfoundation/hardhat-toolbox": "npm:^4.0.0"
-    "@nomicfoundation/hardhat-verify": "npm:^2.0.0"
-    "@typechain/ethers-v6": "npm:^0.5.0"
-    "@typechain/hardhat": "npm:^9.0.0"
-    "@types/chai": "npm:^4.2.0"
-    "@types/mocha": "npm:^10.0.6"
-    "@types/node": "npm:^20.10.7"
-    "@zk-kit/imt": "workspace:packages/imt"
-    "@zk-kit/lean-imt": "workspace:packages/lean-imt"
-    chai: "npm:^4.2.0"
-    ethers: "npm:^6.4.0"
-    hardhat: "npm:^2.19.4"
-    hardhat-gas-reporter: "npm:^1.0.8"
-    poseidon-lite: "npm:^0.2.0"
     poseidon-solidity: "npm:0.0.5"
-    prettier-plugin-solidity: "npm:^1.3.1"
-    solhint: "npm:^3.3.6"
-    solhint-plugin-prettier: "npm:^0.1.0"
-    solidity-coverage: "npm:^0.8.0"
-    ts-node: "npm:^10.9.2"
-    typechain: "npm:^8.3.0"
-    typescript: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
 
@@ -1591,37 +1574,23 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/lean-imt@workspace:packages/lean-imt, lean-imt.sol@workspace:packages/lean-imt":
-  version: 0.0.0-use.local
-  resolution: "lean-imt.sol@workspace:packages/lean-imt"
+"@zk-kit/lean-imt@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@zk-kit/lean-imt@npm:2.0.0"
   dependencies:
-    "@nomicfoundation/hardhat-chai-matchers": "npm:^2.0.3"
-    "@nomicfoundation/hardhat-ethers": "npm:^3.0.0"
-    "@nomicfoundation/hardhat-network-helpers": "npm:^1.0.0"
-    "@nomicfoundation/hardhat-toolbox": "npm:^4.0.0"
-    "@nomicfoundation/hardhat-verify": "npm:^2.0.0"
-    "@typechain/ethers-v6": "npm:^0.5.0"
-    "@typechain/hardhat": "npm:^9.0.0"
-    "@types/chai": "npm:^4.2.0"
-    "@types/mocha": "npm:^10.0.6"
-    "@types/node": "npm:^20.10.7"
-    "@zk-kit/imt": "workspace:packages/imt"
-    "@zk-kit/lean-imt": "workspace:packages/lean-imt"
-    chai: "npm:^4.2.0"
-    ethers: "npm:^6.4.0"
-    hardhat: "npm:^2.19.4"
-    hardhat-gas-reporter: "npm:^1.0.8"
-    poseidon-lite: "npm:^0.2.0"
-    poseidon-solidity: "npm:0.0.5"
-    prettier-plugin-solidity: "npm:^1.3.1"
-    solhint: "npm:^3.3.6"
-    solhint-plugin-prettier: "npm:^0.1.0"
-    solidity-coverage: "npm:^0.8.0"
-    ts-node: "npm:^10.9.2"
-    typechain: "npm:^8.3.0"
-    typescript: "npm:^5.3.3"
-  languageName: unknown
-  linkType: soft
+    "@zk-kit/utils": "npm:1.0.0-beta.4"
+  checksum: 10/b095b400d96291304a90b67e425349a27f7281a12f199aee7020f92c5e2e360515d1d66a379f2cd1cb3ef9cd3150c179e9e7859732c427921ee76a58f903aece
+  languageName: node
+  linkType: hard
+
+"@zk-kit/utils@npm:1.0.0-beta.4":
+  version: 1.0.0-beta.4
+  resolution: "@zk-kit/utils@npm:1.0.0-beta.4"
+  dependencies:
+    buffer: "npm:^6.0.3"
+  checksum: 10/6e9ba05bca4db2fd1c08c8a4dfd3c4ff5bcab205d0fb679278898c40d36cd4d07bbc0d33ac1c97a98e4110ff0370d1138f31fc1f20a6d3914b41d8c063fa1df3
+  languageName: node
+  linkType: hard
 
 "JSONStream@npm:^1.3.5":
   version: 1.3.5
@@ -2004,6 +1973,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"base64-js@npm:^1.3.1":
+  version: 1.5.1
+  resolution: "base64-js@npm:1.5.1"
+  checksum: 10/669632eb3745404c2f822a18fc3a0122d2f9a7a13f7fb8b5823ee19d1d2ff9ee5b52c53367176ea4ad093c332fd5ab4bd0ebae5a8e27917a4105a4cfc86b1005
+  languageName: node
+  linkType: hard
+
 "bech32@npm:1.1.4":
   version: 1.1.4
   resolution: "bech32@npm:1.1.4"
@@ -2165,6 +2141,16 @@ __metadata:
   version: 1.0.3
   resolution: "buffer-xor@npm:1.0.3"
   checksum: 10/4a63d48b5117c7eda896d81cd3582d9707329b07c97a14b0ece2edc6e64220ea7ea17c94b295e8c2cb7b9f8291e2b079f9096be8ac14be238420a43e06ec66e2
+  languageName: node
+  linkType: hard
+
+"buffer@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "buffer@npm:6.0.3"
+  dependencies:
+    base64-js: "npm:^1.3.1"
+    ieee754: "npm:^1.2.1"
+  checksum: 10/b6bc68237ebf29bdacae48ce60e5e28fc53ae886301f2ad9496618efac49427ed79096750033e7eab1897a4f26ae374ace49106a5758f38fb70c78c9fda2c3b1
   languageName: node
   linkType: hard
 
@@ -4368,6 +4354,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ieee754@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "ieee754@npm:1.2.1"
+  checksum: 10/d9f2557a59036f16c282aaeb107832dc957a93d73397d89bbad4eb1130560560eb695060145e8e6b3b498b15ab95510226649a0b8f52ae06583575419fe10fc4
+  languageName: node
+  linkType: hard
+
 "ignore@npm:^5.1.1, ignore@npm:^5.2.4":
   version: 5.3.1
   resolution: "ignore@npm:5.3.1"
@@ -4391,6 +4384,37 @@ __metadata:
   checksum: 10/2cacfad06e652b1edc50be650f7ec3be08c5e5a6f6d12d035c440a42a8cc028e60a5b99ca08a77ab4d6b1346da7d971915828f33cdab730d3d42f08242d09baa
   languageName: node
   linkType: hard
+
+"imt.sol@workspace:packages/imt":
+  version: 0.0.0-use.local
+  resolution: "imt.sol@workspace:packages/imt"
+  dependencies:
+    "@nomicfoundation/hardhat-chai-matchers": "npm:^2.0.3"
+    "@nomicfoundation/hardhat-ethers": "npm:^3.0.0"
+    "@nomicfoundation/hardhat-network-helpers": "npm:^1.0.0"
+    "@nomicfoundation/hardhat-toolbox": "npm:^4.0.0"
+    "@nomicfoundation/hardhat-verify": "npm:^2.0.0"
+    "@typechain/ethers-v6": "npm:^0.5.0"
+    "@typechain/hardhat": "npm:^9.0.0"
+    "@types/chai": "npm:^4.2.0"
+    "@types/mocha": "npm:^10.0.6"
+    "@types/node": "npm:^20.10.7"
+    "@zk-kit/imt": "npm:^2.0.0-beta.4"
+    chai: "npm:^4.2.0"
+    ethers: "npm:^6.4.0"
+    hardhat: "npm:^2.19.4"
+    hardhat-gas-reporter: "npm:^1.0.8"
+    poseidon-lite: "npm:^0.2.0"
+    poseidon-solidity: "npm:0.0.5"
+    prettier-plugin-solidity: "npm:^1.3.1"
+    solhint: "npm:^3.3.6"
+    solhint-plugin-prettier: "npm:^0.1.0"
+    solidity-coverage: "npm:^0.8.0"
+    ts-node: "npm:^10.9.2"
+    typechain: "npm:^8.3.0"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
 
 "imurmurhash@npm:^0.1.4":
   version: 0.1.4
@@ -4834,6 +4858,37 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lazy-imt.sol@workspace:packages/lazy-imt":
+  version: 0.0.0-use.local
+  resolution: "lazy-imt.sol@workspace:packages/lazy-imt"
+  dependencies:
+    "@nomicfoundation/hardhat-chai-matchers": "npm:^2.0.3"
+    "@nomicfoundation/hardhat-ethers": "npm:^3.0.0"
+    "@nomicfoundation/hardhat-network-helpers": "npm:^1.0.0"
+    "@nomicfoundation/hardhat-toolbox": "npm:^4.0.0"
+    "@nomicfoundation/hardhat-verify": "npm:^2.0.0"
+    "@typechain/ethers-v6": "npm:^0.5.0"
+    "@typechain/hardhat": "npm:^9.0.0"
+    "@types/chai": "npm:^4.2.0"
+    "@types/mocha": "npm:^10.0.6"
+    "@types/node": "npm:^20.10.7"
+    "@zk-kit/imt": "npm:^2.0.0-beta.4"
+    chai: "npm:^4.2.0"
+    ethers: "npm:^6.4.0"
+    hardhat: "npm:^2.19.4"
+    hardhat-gas-reporter: "npm:^1.0.8"
+    poseidon-lite: "npm:^0.2.0"
+    poseidon-solidity: "npm:0.0.5"
+    prettier-plugin-solidity: "npm:^1.3.1"
+    solhint: "npm:^3.3.6"
+    solhint-plugin-prettier: "npm:^0.1.0"
+    solidity-coverage: "npm:^0.8.0"
+    ts-node: "npm:^10.9.2"
+    typechain: "npm:^8.3.0"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
 "lazytower.sol@workspace:packages/lazytower":
   version: 0.0.0-use.local
   resolution: "lazytower.sol@workspace:packages/lazytower"
@@ -4848,6 +4903,37 @@ __metadata:
     "@types/chai": "npm:^4.2.0"
     "@types/mocha": "npm:^10.0.6"
     "@types/node": "npm:^20.10.7"
+    chai: "npm:^4.2.0"
+    ethers: "npm:^6.4.0"
+    hardhat: "npm:^2.19.4"
+    hardhat-gas-reporter: "npm:^1.0.8"
+    poseidon-lite: "npm:^0.2.0"
+    poseidon-solidity: "npm:0.0.5"
+    prettier-plugin-solidity: "npm:^1.3.1"
+    solhint: "npm:^3.3.6"
+    solhint-plugin-prettier: "npm:^0.1.0"
+    solidity-coverage: "npm:^0.8.0"
+    ts-node: "npm:^10.9.2"
+    typechain: "npm:^8.3.0"
+    typescript: "npm:^5.3.3"
+  languageName: unknown
+  linkType: soft
+
+"lean-imt.sol@workspace:packages/lean-imt":
+  version: 0.0.0-use.local
+  resolution: "lean-imt.sol@workspace:packages/lean-imt"
+  dependencies:
+    "@nomicfoundation/hardhat-chai-matchers": "npm:^2.0.3"
+    "@nomicfoundation/hardhat-ethers": "npm:^3.0.0"
+    "@nomicfoundation/hardhat-network-helpers": "npm:^1.0.0"
+    "@nomicfoundation/hardhat-toolbox": "npm:^4.0.0"
+    "@nomicfoundation/hardhat-verify": "npm:^2.0.0"
+    "@typechain/ethers-v6": "npm:^0.5.0"
+    "@typechain/hardhat": "npm:^9.0.0"
+    "@types/chai": "npm:^4.2.0"
+    "@types/mocha": "npm:^10.0.6"
+    "@types/node": "npm:^20.10.7"
+    "@zk-kit/lean-imt": "npm:^2.0.0"
     chai: "npm:^4.2.0"
     ethers: "npm:^6.4.0"
     hardhat: "npm:^2.19.4"

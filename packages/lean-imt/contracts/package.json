@@ -19,8 +19,8 @@
         "merkle-tree",
         "incremental-merkle-tree"
     ],
-    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit/tree/main/packages/imt.sol",
+    "repository": "git@github.com:privacy-scaling-explorations/zk-kit.solidity.git",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/imt",
     "publishConfig": {
         "access": "public"
     },

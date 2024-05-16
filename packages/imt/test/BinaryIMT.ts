@@ -15,7 +15,7 @@ describe("BinaryIMT", () => {
 
         binaryIMT = library
         binaryIMTTest = contract
-        jsBinaryIMT = new JSBinaryIMT(poseidon2, 16, 0, 2)
+        jsBinaryIMT = new JSBinaryIMT(poseidon2, 6, 0, 2)
     })
 
     describe("# init", () => {

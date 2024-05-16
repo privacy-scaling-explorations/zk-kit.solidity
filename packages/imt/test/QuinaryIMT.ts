@@ -15,7 +15,7 @@ describe("QuinaryIMT", () => {
 
         quinaryIMT = library
         quinaryIMTTest = contract
-        jsQuinaryIMT = new JSQuinaryIMT(poseidon5, 16, 0, 5)
+        jsQuinaryIMT = new JSQuinaryIMT(poseidon5, 6, 0, 5)
     })
 
     describe("# init", () => {

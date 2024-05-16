@@ -20,7 +20,7 @@
         <img alt="GitHub Main Workflow" src="https://img.shields.io/github/actions/workflow/status/privacy-scaling-explorations/zk-kit.solidity/production.yml?branch=main&label=main&style=flat-square&logo=github">
     </a>
     <a href="https://coveralls.io/github/privacy-scaling-explorations/zk-kit.solidity">
-        <img alt="Coveralls" src="https://img.shields.io/coveralls/github/privacy-scaling-explorations/zk-kit.solidity?label=coverage (ts)&style=flat-square&logo=coveralls">
+        <img alt="Coveralls" src="https://img.shields.io/coveralls/github/privacy-scaling-explorations/zk-kit.solidity?label=coverage (sol)&style=flat-square&logo=coveralls">
     </a>
     <a href="https://prettier.io/">
         <img alt="Code style prettier" src="https://img.shields.io/badge/code%20style-prettier-f8bc45?style=flat-square&logo=prettier">
