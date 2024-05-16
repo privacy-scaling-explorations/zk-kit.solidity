@@ -69,7 +69,7 @@
     <tbody>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/imt.sol">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/imt">
                     @zk-kit/imt.sol
                 </a>
             </td>
@@ -88,7 +88,7 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/lean-imt.sol">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/lean-imt">
                     @zk-kit/lean-imt.sol
                 </a>
             </td>
@@ -107,7 +107,7 @@
         </tr>
         <tr>
             <td>
-                <a href="https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/lazy-imt.sol">
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/lazy-imt">
                     @zk-kit/lazy-imt.sol
                 </a>
             </td>
