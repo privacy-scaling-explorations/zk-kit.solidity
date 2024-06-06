@@ -2,34 +2,19 @@
 pragma solidity >=0.8.0 <0.9.0;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import {IExcubia} from "./IExcubia.sol";
 
 /// @title Excubia.
 /// @notice Abstract base contract which can be extended to implement a specific excubia.
 /// @dev Inherit from this contract and implement the `_check` method to define the custom gatekeeping logic.
-abstract contract Excubia is Ownable(msg.sender) {
+abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     /// @notice The excubia-protected contract address.
     /// @dev The gate can be any contract address that requires a prior `_check`.
     /// For example, the gate is a semaphore group that requires the passerby
     /// to meet certain criteria before joining.
     address public gate;
 
-    /// @notice Event emitted when someone passes the `_check` method.
-    /// @param passerby The address of those who have successfully passed the check.
-    /// @param gate The address of the excubia-protected contract address.
-    event GatePassed(address indexed passerby, address indexed gate);
-
-    /// @notice Error thrown when the gate address is not set.
-    error GateNotSet();
-
-    /// @notice Error thrown when the gate address has been already set.
-    error GateAlreadySet();
-
-    /// @notice Error thrown when access is denied by the excubia.
-    error AccessDenied();
-
-    /// @notice Sets the gate address.
-    /// @dev Only the owner can set the destination gate address.
-    /// @param _gate The address of the contract to be set as the gate.
+    /// @dev See {IExcubia-setGate}.
     function setGate(address _gate) public virtual onlyOwner {
         if (gate != address(0)) revert GateAlreadySet();
 
@@ -42,9 +27,7 @@ abstract contract Excubia is Ownable(msg.sender) {
         gate = _gate;
     }
 
-    /// @notice Initiates the excubia's check and triggers the associated action if the check is passed.
-    /// @dev Calls `_pass` to handle the logic of checking and passing the gate.
-    /// @param data Additional data required for the check (e.g., encoded token identifier).
+    /// @dev See {IExcubia-pass}.
     function pass(bytes memory data) public virtual {
         _pass(data);
     }
