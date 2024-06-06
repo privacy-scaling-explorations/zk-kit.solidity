@@ -26,5 +26,6 @@ interface IExcubia {
     /// @notice Initiates the excubia's check and triggers the associated action if the check is passed.
     /// @dev Calls `_pass` to handle the logic of checking and passing the gate.
     /// @param data Additional data required for the check (e.g., encoded token identifier).
-    function pass(bytes memory data) external;
+    /// @param passerby The address of the entity attempting to pass the gate.
+    function pass(bytes memory data, address passerby) external;
 }

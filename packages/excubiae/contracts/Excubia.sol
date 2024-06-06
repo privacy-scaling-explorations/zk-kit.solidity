@@ -14,7 +14,7 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     /// to meet certain criteria before joining.
     address public gate;
 
-    /// @dev See {IExcubia-setGate}.
+    /// @inheritdoc IExcubia
     function setGate(address _gate) public virtual onlyOwner {
         if (gate != address(0)) revert GateAlreadySet();
 
@@ -27,25 +27,26 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
         gate = _gate;
     }
 
-    /// @dev See {IExcubia-pass}.
-    function pass(bytes memory data) public virtual {
-        _pass(data);
+    /// @inheritdoc IExcubia
+    function pass(bytes memory data, address passerby) public virtual {
+        _pass(data, passerby);
     }
 
     /// @dev Internal method that performs the check and emits an event if the check is passed.
     /// Can throw errors as {GateNotSet} if the gate address has not been set or.
     /// {AccessDenied} if the `_check` method returns false.
     /// @param data Additional data required for the check.
-    function _pass(bytes memory data) internal virtual {
+    /// @param passerby The address of the entity attempting to pass the gate.
+    function _pass(bytes memory data, address passerby) internal virtual {
         if (gate == address(0)) revert GateNotSet();
-        if (!_check(msg.sender, data)) revert AccessDenied();
+        if (!_check(data, passerby)) revert AccessDenied();
 
-        emit GatePassed(msg.sender, gate);
+        emit GatePassed(passerby, gate);
     }
 
     /// @dev Abstract internal function to be implemented with custom logic to check if the passerby can pass the gate.
-    /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data that may be required for the check.
+    /// @param passerby The address of the entity attempting to pass the gate.
     /// @return True if the passerby passes the check, false otherwise.
-    function _check(address passerby, bytes memory data) internal virtual returns (bool);
+    function _check(bytes memory data, address passerby) internal virtual returns (bool);
 }
