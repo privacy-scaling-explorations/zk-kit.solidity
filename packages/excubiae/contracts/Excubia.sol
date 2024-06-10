@@ -6,13 +6,20 @@ import {IExcubia} from "./IExcubia.sol";
 
 /// @title Excubia.
 /// @notice Abstract base contract which can be extended to implement a specific excubia.
-/// @dev Inherit from this contract and implement the `_check` method to define the custom gatekeeping logic.
+/// @dev Inherit from this contract and implement the `_check` and/or `_pass()` methods
+/// to define the custom gatekeeping logic.
 abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     /// @notice The excubia-protected contract address.
     /// @dev The gate can be any contract address that requires a prior `_check`.
-    /// For example, the gate is a semaphore group that requires the passerby
+    /// For example, the gate is a Semaphore group that requires the passerby
     /// to meet certain criteria before joining.
     address public gate;
+
+    /// @dev Modifier to restrict function calls to only from the gate address.
+    modifier onlyGate() {
+        if (msg.sender == gate) revert GateOnly();
+        _;
+    }
 
     /// @inheritdoc IExcubia
     function setGate(address _gate) public virtual onlyOwner {
@@ -28,25 +35,23 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     }
 
     /// @inheritdoc IExcubia
-    function pass(bytes memory data, address passerby) public virtual {
-        _pass(data, passerby);
+    function pass(address passerby, bytes calldata data) public virtual onlyGate {
+        _pass(passerby, data);
     }
 
     /// @dev Internal method that performs the check and emits an event if the check is passed.
-    /// Can throw errors as {GateNotSet} if the gate address has not been set or.
-    /// {AccessDenied} if the `_check` method returns false.
-    /// @param data Additional data required for the check.
+    /// Can throw errors the {AccessDenied} error if the `_check` method returns false.
     /// @param passerby The address of the entity attempting to pass the gate.
-    function _pass(bytes memory data, address passerby) internal virtual {
-        if (gate == address(0)) revert GateNotSet();
-        if (!_check(data, passerby)) revert AccessDenied();
+    /// @param data Additional data required for the check.
+    function _pass(address passerby, bytes calldata data) internal virtual {
+        if (!_check(passerby, data)) revert AccessDenied();
 
         emit GatePassed(passerby, gate);
     }
 
     /// @dev Abstract internal function to be implemented with custom logic to check if the passerby can pass the gate.
-    /// @param data Additional data that may be required for the check.
     /// @param passerby The address of the entity attempting to pass the gate.
+    /// @param data Additional data that may be required for the check.
     /// @return True if the passerby passes the check, false otherwise.
-    function _check(bytes memory data, address passerby) internal virtual returns (bool);
+    function _check(address passerby, bytes calldata data) internal virtual returns (bool);
 }

@@ -12,6 +12,9 @@ interface IExcubia {
     /// @notice Error thrown when the gate address is not set.
     error GateNotSet();
 
+    /// @notice Error thrown when the callee is not the gate contract.
+    error GateOnly();
+
     /// @notice Error thrown when the gate address has been already set.
     error GateAlreadySet();
 
@@ -25,7 +28,7 @@ interface IExcubia {
 
     /// @notice Initiates the excubia's check and triggers the associated action if the check is passed.
     /// @dev Calls `_pass` to handle the logic of checking and passing the gate.
-    /// @param data Additional data required for the check (e.g., encoded token identifier).
     /// @param passerby The address of the entity attempting to pass the gate.
-    function pass(bytes memory data, address passerby) external;
+    /// @param data Additional data required for the check (e.g., encoded token identifier).
+    function pass(address passerby, bytes calldata data) external;
 }
