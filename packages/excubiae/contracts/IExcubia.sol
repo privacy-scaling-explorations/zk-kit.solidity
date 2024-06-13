@@ -9,7 +9,7 @@ interface IExcubia {
     /// @param gate The address of the excubia-protected contract address.
     event GatePassed(address indexed passerby, address indexed gate);
 
-    /// @notice Error thrown when an address is zero.
+    /// @notice Error thrown when an address equal to zero is given.
     error ZeroAddress();
 
     /// @notice Error thrown when the gate address is not set.

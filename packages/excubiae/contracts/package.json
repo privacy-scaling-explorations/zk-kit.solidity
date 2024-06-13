@@ -25,6 +25,7 @@
         "access": "public"
     },
     "dependencies": {
+        "@ethereum-attestation-service/eas-contracts": "^1.7.1",
         "@openzeppelin/contracts": "^5.0.2"
     }
 }

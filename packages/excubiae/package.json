@@ -35,6 +35,7 @@
         "typescript": "^5.3.3"
     },
     "dependencies": {
+        "@ethereum-attestation-service/eas-contracts": "^1.7.1",
         "@openzeppelin/contracts": "^5.0.2"
     }
 }
