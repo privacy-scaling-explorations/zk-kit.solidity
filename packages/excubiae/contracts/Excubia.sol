@@ -17,12 +17,13 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
 
     /// @dev Modifier to restrict function calls to only from the gate address.
     modifier onlyGate() {
-        if (msg.sender == gate) revert GateOnly();
+        if (msg.sender != gate) revert GateOnly();
         _;
     }
 
     /// @inheritdoc IExcubia
     function setGate(address _gate) public virtual onlyOwner {
+        if (_gate == address(0)) revert ZeroAddress();
         if (gate != address(0)) revert GateAlreadySet();
 
         _setGate(_gate);
