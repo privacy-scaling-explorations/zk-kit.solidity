@@ -49,10 +49,11 @@ contract EASExcubia is Excubia {
         SCHEMA = _schema;
     }
 
-    /// @notice Overrides the `_pass` function to register a correct attestation.
+    /// @notice Overrides the `_check` function to validate against specific criteria.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Encoded attestation ID.
-    function _pass(address passerby, bytes calldata data) internal override {
+    /// @return True if the attestation meets all criteria, revert otherwise.
+    function _check(address passerby, bytes calldata data) internal override returns (bool) {
         bytes32 attestationId = abi.decode(data, (bytes32));
 
         // Avoiding double check of the same attestation.
@@ -60,15 +61,7 @@ contract EASExcubia is Excubia {
 
         registeredAttestations[attestationId] = true;
 
-        super._pass(passerby, data);
-    }
-
-    /// @notice Overrides the `_check` function to validate the attestation against specific criteria.
-    /// @param passerby The address of the entity attempting to pass the gate.
-    /// @param data Encoded attestation ID.
-    /// @return True if the attestation meets all criteria, revert otherwise.
-    function _check(address passerby, bytes calldata data) internal view override returns (bool) {
-        Attestation memory attestation = EAS.getAttestation(abi.decode(data, (bytes32)));
+        Attestation memory attestation = EAS.getAttestation(attestationId);
 
         if (attestation.schema != SCHEMA) revert UnexpectedSchema();
         if (attestation.attester != ATTESTER) revert UnexpectedAttester();
