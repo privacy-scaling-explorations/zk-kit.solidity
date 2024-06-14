@@ -53,9 +53,14 @@ contract EASExcubia is Excubia {
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Encoded attestation ID.
     function _pass(address passerby, bytes calldata data) internal override {
-        super._pass(passerby, data);
+        bytes32 attestationId = abi.decode(data, (bytes32));
 
-        registeredAttestations[decodeAttestationId(data)] = true;
+        // Avoiding double check of the same attestation.
+        if (registeredAttestations[attestationId]) revert AlreadyRegistered();
+
+        registeredAttestations[attestationId] = true;
+
+        super._pass(passerby, data);
     }
 
     /// @notice Overrides the `_check` function to validate the attestation against specific criteria.
@@ -63,11 +68,7 @@ contract EASExcubia is Excubia {
     /// @param data Encoded attestation ID.
     /// @return True if the attestation meets all criteria, revert otherwise.
     function _check(address passerby, bytes calldata data) internal view override returns (bool) {
-        bytes32 attestationId = decodeAttestationId(data);
-
-        if (registeredAttestations[attestationId]) revert AlreadyRegistered();
-
-        Attestation memory attestation = EAS.getAttestation(attestationId);
+        Attestation memory attestation = EAS.getAttestation(abi.decode(data, (bytes32)));
 
         if (attestation.schema != SCHEMA) revert UnexpectedSchema();
         if (attestation.attester != ATTESTER) revert UnexpectedAttester();
@@ -75,12 +76,5 @@ contract EASExcubia is Excubia {
         if (attestation.revocationTime != 0) revert RevokedAttestation();
 
         return true;
-    }
-
-    /// @notice Decodes an EAS attestation identifier from the encoded form.
-    /// @param data Encoded attestation ID.
-    /// @return Decoded attestation ID.
-    function decodeAttestationId(bytes calldata data) private pure returns (bytes32) {
-        return abi.decode(data, (bytes32));
     }
 }

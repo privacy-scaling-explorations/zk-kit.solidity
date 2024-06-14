@@ -1,6 +1,6 @@
 import { expect } from "chai"
 import { ethers } from "hardhat"
-import { BigNumberish, Signer, ZeroAddress, getDefaultProvider } from "ethers"
+import { Signer, ZeroAddress } from "ethers"
 import { EASExcubia, EASExcubia__factory, MockEAS, MockEAS__factory } from "../typechain-types"
 
 describe("EASExcubia", function () {
@@ -72,6 +72,10 @@ describe("EASExcubia", function () {
             await easExcubia.setGate(gateAddress).then((tx) => tx.wait())
 
             expect(await easExcubia.gate()).to.eq(gateAddress)
+        })
+
+        it("Should fail to set the gate if already set", async function () {
+            await expect(easExcubia.setGate(gateAddress)).to.be.revertedWithCustomError(easExcubia, "GateAlreadySet")
         })
 
         it("should throw when the callee is not the gate", async () => {

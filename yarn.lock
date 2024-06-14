@@ -3470,13 +3470,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "excubiae@workspace:packages/excubiae"
   dependencies:
-    "@ethereum-attestation-service/eas-contracts": "npm:^1.7.1"
     "@nomicfoundation/hardhat-chai-matchers": "npm:^2.0.3"
     "@nomicfoundation/hardhat-ethers": "npm:^3.0.0"
     "@nomicfoundation/hardhat-network-helpers": "npm:^1.0.0"
     "@nomicfoundation/hardhat-toolbox": "npm:^4.0.0"
     "@nomicfoundation/hardhat-verify": "npm:^2.0.0"
-    "@openzeppelin/contracts": "npm:^5.0.2"
     "@typechain/ethers-v6": "npm:^0.5.0"
     "@typechain/hardhat": "npm:^9.0.0"
     "@types/chai": "npm:^4.2.0"
