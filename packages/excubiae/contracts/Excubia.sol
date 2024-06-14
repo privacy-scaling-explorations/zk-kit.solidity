@@ -26,12 +26,6 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
         if (_gate == address(0)) revert ZeroAddress();
         if (gate != address(0)) revert GateAlreadySet();
 
-        _setGate(_gate);
-    }
-
-    /// @dev Internal method to directly set the gate address.
-    /// @param _gate The address of the contract to be set as the gate.
-    function _setGate(address _gate) internal virtual {
         gate = _gate;
     }
 
