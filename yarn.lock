@@ -251,6 +251,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ethereum-attestation-service/eas-contracts@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "@ethereum-attestation-service/eas-contracts@npm:1.7.1"
+  dependencies:
+    hardhat: "npm:2.22.4"
+  checksum: 10/059e02b62c7e325648646b75e108616e48281293930a9bdd63c4ad5068fa69f93fac189d509103b72f4fcffb8b9eda824dd1bf18b94a35cf6d773af9b5f96e51
+  languageName: node
+  linkType: hard
+
 "@ethereumjs/rlp@npm:^4.0.1":
   version: 4.0.1
   resolution: "@ethereumjs/rlp@npm:4.0.1"
@@ -1546,6 +1555,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/excubiae@workspace:packages/excubiae/contracts"
   dependencies:
+    "@ethereum-attestation-service/eas-contracts": "npm:^1.7.1"
     "@openzeppelin/contracts": "npm:^5.0.2"
   languageName: unknown
   linkType: soft
@@ -3465,7 +3475,6 @@ __metadata:
     "@nomicfoundation/hardhat-network-helpers": "npm:^1.0.0"
     "@nomicfoundation/hardhat-toolbox": "npm:^4.0.0"
     "@nomicfoundation/hardhat-verify": "npm:^2.0.0"
-    "@openzeppelin/contracts": "npm:^5.0.2"
     "@typechain/ethers-v6": "npm:^0.5.0"
     "@typechain/hardhat": "npm:^9.0.0"
     "@types/chai": "npm:^4.2.0"
@@ -4101,7 +4110,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hardhat@npm:^2.19.4":
+"hardhat@npm:2.22.4, hardhat@npm:^2.19.4":
   version: 2.22.4
   resolution: "hardhat@npm:2.22.4"
   dependencies:
