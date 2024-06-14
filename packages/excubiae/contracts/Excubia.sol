@@ -6,8 +6,8 @@ import {IExcubia} from "./IExcubia.sol";
 
 /// @title Excubia.
 /// @notice Abstract base contract which can be extended to implement a specific excubia.
-/// @dev Inherit from this contract and implement the `_check` and/or `_pass()` methods
-/// to define the custom gatekeeping logic.
+/// @dev Inherit from this contract and implement the `_check` method to define
+/// the custom gatekeeping logic.
 abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     /// @notice The excubia-protected contract address.
     /// @dev The gate can be any contract address that requires a prior `_check`.
@@ -37,14 +37,6 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
 
     /// @inheritdoc IExcubia
     function pass(address passerby, bytes calldata data) public virtual onlyGate {
-        _pass(passerby, data);
-    }
-
-    /// @dev Internal method that performs the check and emits an event if the check is passed.
-    /// Can throw errors the {AccessDenied} error if the `_check` method returns false.
-    /// @param passerby The address of the entity attempting to pass the gate.
-    /// @param data Additional data required for the check.
-    function _pass(address passerby, bytes calldata data) internal virtual {
         if (!_check(passerby, data)) revert AccessDenied();
 
         emit GatePassed(passerby, gate);

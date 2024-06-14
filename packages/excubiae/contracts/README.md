@@ -57,8 +57,7 @@ yarn add @zk-kit/excubiae
 To build your own Excubia:
 
 1. Inherit from the [Excubia](./Excubia.sol) abstract contract that conforms to the [IExcubia](./IExcubia.sol) interface.
-2. Implement the `_check()` method to define your own gatekeeping logic.
-3. Implement the `_pass()` method to prevent unwanted access (sybils, double checks).
+2. Implement the `_check()` method to define your own gatekeeping logic and to prevent unwanted access (sybils, double checks).
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -69,16 +68,9 @@ import { Excubia } from "excubiae/contracts/Excubia.sol";
 contract MyExcubia is Excubia {
     // ...
 
-    function _pass(address passerby, bytes calldata data) internal override {
-        if (!_check(passerby, data)) revert AccessDenied();
-
-        // Implement your logic to prevent unwanted access here.
-
-        emit GatePassed(passerby, gate);
-    }
-
     function _check(address passerby, bytes calldata data) internal override returns (bool) {
         // Implement custom access control logic here.
+        // Implement your logic to prevent unwanted access here.
 
         return true;
     }
