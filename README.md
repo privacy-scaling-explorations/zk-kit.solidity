@@ -66,6 +66,7 @@
     <th>Package</th>
     <th>Version</th>
     <th>Downloads</th>
+    <th>Audited</th>
     <tbody>
         <tr>
             <td>
@@ -84,6 +85,9 @@
                 <a href="https://npmjs.org/package/@zk-kit/imt.sol">
                     <img src="https://img.shields.io/npm/dm/@zk-kit/imt.sol.svg?style=flat-square" alt="Downloads" />
                 </a>
+            </td>
+            <td>
+                ❌
             </td>
         </tr>
         <tr>
@@ -104,6 +108,11 @@
                     <img src="https://img.shields.io/npm/dm/@zk-kit/lean-imt.sol.svg?style=flat-square" alt="Downloads" />
                 </a>
             </td>
+            <td>
+                <a href="https://semaphore.pse.dev/Semaphore_4.0.0_Audit.pdf">
+                    ✔️
+                </a>
+            </td>
         </tr>
         <tr>
             <td>
@@ -122,6 +131,9 @@
                 <a href="https://npmjs.org/package/@zk-kit/lazy-imt.sol">
                     <img src="https://img.shields.io/npm/dm/@zk-kit/lazy-imt.sol.svg?style=flat-square" alt="Downloads" />
                 </a>
+            </td>
+            <td>
+                ❌
             </td>
         </tr>
     <tbody>
@@ -192,12 +204,26 @@ yarn compile
 
 ### Releases
 
-Bump a new version for your package with:
+1. Bump a new version of the package with:
 
 ```bash
 yarn version:bump <package-name> <version>
 # e.g. yarn version:bump utils 2.0.0
 ```
 
-It will create a commit and a git tag that you'll need to push on the main branch. A workflow will be triggered and will
-publish your package on [npm](https://www.npmjs.com/) and release a new version on Github with its changelogs automatically.
+This step creates a commit and a git tag.
+
+2. Push the changes to main:
+
+```bash
+git push origin main
+```
+
+3. Push the new git tag:
+
+```bash
+git push origin <package-name>-<version>
+# e.g. git push origin utils-v2.0.0
+```
+
+After pushing the new git tag, a workflow will be triggered and will publish the package on [npm](https://www.npmjs.com/) and release a new version on Github with its changelogs automatically.
