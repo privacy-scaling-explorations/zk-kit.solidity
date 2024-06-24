@@ -100,9 +100,10 @@ jobs:
               uses: crytic/slither-action@v0.4.0
               id: slither
               with:
-                  sarif: results.sarif
+                  ignore-compile: true
                   fail-on: none
-                  slither-args: --ignore-compile --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
+                  sarif: results.sarif
+                  slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
                   target: packages/${{ matrix.dir }}
             - name: Upload SARIF files
               uses: github/codeql-action/upload-sarif@v3
