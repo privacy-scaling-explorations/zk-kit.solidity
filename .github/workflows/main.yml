@@ -65,3 +65,52 @@ jobs:
               uses: coverallsapp/github-action@v2
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    gen-slither-matrix:
+        runs-on: ubuntu-latest
+        outputs:
+            matrix: ${{ steps.set-matrix.outputs.matrix }}
+        steps:
+            - uses: actions/checkout@v4
+            - name: get list of packages
+              run: |
+                  dirs=$(ls -1 packages)
+                  dirs_json=$(printf '%s\n' "$dirs" | jq -R . | jq -s .)
+                  echo "$dirs_json" >> $GITHUB_ENV
+            - name: set matrix
+              run: echo "::set-output name=matrix::${{ env.dirs_json }}"
+
+    slither:
+        needs: gen-slither-matrix
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            security-events: write
+        strategy:
+            matrix:
+                dir: ${{ fromJson(needs.gen-slither.matrix.outputs.matrix) }}
+        steps:
+            - uses: actions/checkout@v4
+            - name: Run slither
+              uses: crytic/slityer-action@v0.4.0
+              id: slither
+              with:
+                  sarif: results.sarif
+                  fail-on: none
+                  slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
+                  target: ${{ matrix.dir }}
+            - name: Upload SARIF files
+              uses: github/codeql-action/upload-sarif@v3
+              with:
+                  sarif_file: ${{ steps.slither.outputs.sarif }}
+            - name: Create/update checklist as PR comment
+              uses: actions/github-script@v7
+              if: github.even_name == 'pull_request'
+              env:
+                  REPORT: ${{ steps.slither.stdout }}
+              with:
+                  script: |
+                      const script = require('.github/scripts/slither-comment')
+                      const header = '# Slither report'
+                      const body = process.env.REPORT
+                      await script({ github, context, header, body })
