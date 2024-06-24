@@ -72,12 +72,11 @@ jobs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
         steps:
             - uses: actions/checkout@v4
-            - name: set-matrix
-              id: get-dirs
+            - name: Set matrix
+              id: set-matrix
               run: |
-                matrix=$(ls -1 packages | jq -Rsc 'split("\n") | map(select(length > 0))')
-                echo "$matrix"
-                echo "matrix" >> $GITHUB_OUTPUT
+                  matrix=$(ls -1 packages | jq -Rsc 'split("\n") | map(select(length > 0))')
+                  echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
     slither:
         needs: set-slither-matrix
