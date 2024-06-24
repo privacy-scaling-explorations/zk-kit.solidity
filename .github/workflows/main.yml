@@ -90,7 +90,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - name: Run slither
-              uses: crytic/slityer-action@v0.4.0
+              uses: crytic/slither-action@v0.4.0
               id: slither
               with:
                   sarif: results.sarif
