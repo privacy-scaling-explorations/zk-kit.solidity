@@ -96,7 +96,7 @@ jobs:
                   sarif: results.sarif
                   fail-on: none
                   slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
-                  target: ${{ matrix.dir }}
+                  target: packages/${{ matrix.dir }}
             - name: Upload SARIF files
               uses: github/codeql-action/upload-sarif@v3
               with:
