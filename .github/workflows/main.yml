@@ -66,29 +66,28 @@ jobs:
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
 
-    gen-slither-matrix:
+    set-slither-matrix:
         runs-on: ubuntu-latest
         outputs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
         steps:
             - uses: actions/checkout@v4
-            - name: get list of packages
+            - name: set-matrix
+              id: get-dirs
               run: |
-                  dirs=$(ls -1 packages)
-                  dirs_json=$(printf '%s\n' "$dirs" | jq -R . | jq -s .)
-                  echo "$dirs_json" >> $GITHUB_ENV
-            - name: set matrix
-              run: echo "::set-output name=matrix::${{ env.dirs_json }}"
+                matrix=$(ls -1 packages | jq -Rsc 'split("\n") | map(select(length > 0))')
+                echo "$matrix"
+                echo "matrix" >> $GITHUB_OUTPUT
 
     slither:
-        needs: gen-slither-matrix
+        needs: set-slither-matrix
         runs-on: ubuntu-latest
         permissions:
             contents: read
             security-events: write
         strategy:
             matrix:
-                dir: ${{ fromJson(needs.gen-slither.matrix.outputs.matrix) }}
+                dir: ${{ fromJson(needs.set-slither-matrix.outputs.matrix) }}
         steps:
             - uses: actions/checkout@v4
             - name: Run slither
