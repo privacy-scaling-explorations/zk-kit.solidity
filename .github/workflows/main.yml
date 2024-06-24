@@ -89,13 +89,20 @@ jobs:
                 dir: ${{ fromJson(needs.set-slither-matrix.outputs.matrix) }}
         steps:
             - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+                  cache: yarn
+            - run: yarn
+            - run: yarn compile
+
             - name: Run slither
               uses: crytic/slither-action@v0.4.0
               id: slither
               with:
                   sarif: results.sarif
                   fail-on: none
-                  slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
+                  slither-args: --ignore-compile --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
                   target: packages/${{ matrix.dir }}
             - name: Upload SARIF files
               uses: github/codeql-action/upload-sarif@v3
