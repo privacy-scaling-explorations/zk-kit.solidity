@@ -108,7 +108,7 @@ jobs:
               name: Test
               run: |
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
-                  yarn worksace "$workspace" run test:coverage
+                  yarn workspace "$workspace" run test:coverage
 
             - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
               name: Coveralls
