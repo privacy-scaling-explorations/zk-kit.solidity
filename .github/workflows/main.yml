@@ -34,10 +34,11 @@ jobs:
             - if: steps.cache.outputs.cache-hit != 'true'
               run: yarn
 
-    get-changed-files:
+    changed-files:
         runs-on: ubuntu-latest
         outputs:
             any_changed: ${{ steps.changed-files.outputs.any_changed }}
+            modified_files: ${{ steps.changed-files.outputs.modified_files }}
         steps:
             - uses: actions/checkout@v4
             - name: Get changed files
@@ -47,8 +48,8 @@ jobs:
                   files: packages/**/*.{sol,json,ts}
 
     compile:
-        if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: [get-changed-files, deps]
+        if: needs.changed-files.outputs.any_changed == 'true'
+        needs: [changed-files, deps]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
@@ -83,8 +84,8 @@ jobs:
 
             - run: yarn format
     tests:
-        if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: [get-changed-files, set-matrix, deps, compile]
+        if: needs.changed-files.outputs.any_changed == 'true'
+        needs: [changed-files, set-matrix, deps, compile]
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -104,7 +105,7 @@ jobs:
                   name: all-artifacts
                   path: packages/
 
-            - if: contains(needs.get-changed-files.outputs.modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Test
               run: |
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
@@ -117,8 +118,8 @@ jobs:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
 
     set-matrix:
-        if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: get-changed-files
+        if: needs.changed-files.outputs.any_changed == 'true'
+        needs: changed-files
         runs-on: ubuntu-latest
         outputs:
             matrix: ${{ steps.set-matrix.outputs.matrix }}
@@ -131,8 +132,8 @@ jobs:
                   echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
     slither:
-        if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: [get-changed-files, set-matrix, deps]
+        if: needs.changed-files.outputs.any_changed == 'true'
+        needs: [changed-files, set-matrix, deps]
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -156,13 +157,13 @@ jobs:
               with:
                   path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
-            - if: contains(needs.get-changed-files.outputs.modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Compile contracts
               run: |
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
                   yarn workspace "$workspace" run compile
 
-            - if: contains(needs.get-changed-files.outputs.modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Run slither
               uses: crytic/slither-action@v0.4.0
               id: slither
@@ -174,7 +175,7 @@ jobs:
                   slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
                   target: packages/${{ matrix.dir }}
 
-            - if: contains(needs.get-changed-files.outputs.modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Upload SARIF files
               uses: github/codeql-action/upload-sarif@v3
               with:
