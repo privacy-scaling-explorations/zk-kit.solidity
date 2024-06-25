@@ -125,7 +125,7 @@ jobs:
 
     slither:
         if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: [set-slither-matrix, compile]
+        needs: [set-slither-matrix, deps]
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -135,19 +135,35 @@ jobs:
                 dir: ${{ fromJson(needs.set-slither-matrix.outputs.matrix) }}
         steps:
             - uses: actions/checkout@v4
+
+            # FIXME this does not work as a way to restore compilation results for slither job but it does for the compile job ??
+            #- uses: actions/download-artifact@v4
+            #  with:
+            #      name: all-artifacts
+            #      path: packages/
+
             - uses: actions/setup-node@v4
               with:
                   node-version: "20"
+            - uses: actions/cache/restore@v4
+              with:
+                  path: node_modules
+                  key: ${{ needs.deps.outputs.cache-key }}
+            - run: |
+                  workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
+                  yarn workspace "$workspace" run compile
 
             - name: Run slither
               uses: crytic/slither-action@v0.4.0
               id: slither
               with:
                   ignore-compile: true
+                  node-version: "20"
                   fail-on: none
                   sarif: results.sarif
                   slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
                   target: packages/${{ matrix.dir }}
+
             - name: Upload SARIF files
               uses: github/codeql-action/upload-sarif@v3
               with:
