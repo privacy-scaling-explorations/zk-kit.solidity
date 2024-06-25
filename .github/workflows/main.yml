@@ -84,11 +84,11 @@ jobs:
             - run: yarn format
     tests:
         if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: [deps, compile]
+        needs: [get-changed-files, set-matrix, deps, compile]
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                dir: ${{ fromJson(needs.set-slither-matrix.outputs.matrix) }}
+                dir: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
 
         steps:
             - uses: actions/checkout@v4
@@ -116,7 +116,7 @@ jobs:
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
 
-    set-slither-matrix:
+    set-matrix:
         if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
         needs: get-changed-files
         runs-on: ubuntu-latest
@@ -132,14 +132,14 @@ jobs:
 
     slither:
         if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: [set-slither-matrix, deps]
+        needs: [get-changed-files, set-matrix, deps]
         runs-on: ubuntu-latest
         permissions:
             contents: read
             security-events: write
         strategy:
             matrix:
-                dir: ${{ fromJson(needs.set-slither-matrix.outputs.matrix) }}
+                dir: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
         steps:
             - uses: actions/checkout@v4
 
