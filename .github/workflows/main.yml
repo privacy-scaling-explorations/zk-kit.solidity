@@ -87,7 +87,7 @@ jobs:
                   echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
     slither:
-        if: ${{ needs.get-changed-files.outputs.any_changed = 'true' }}
+        if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
         needs: set-slither-matrix
         runs-on: ubuntu-latest
         permissions:
