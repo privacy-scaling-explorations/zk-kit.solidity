@@ -11,8 +11,37 @@ concurrency:
     cancel-in-progress: true
 
 jobs:
+    deps:
+        runs-on: ubuntu-latest
+        outputs:
+            cache-path: ${{ steps.cache-env.outputs.cache-path }}
+            cache-key: ${{ steps.cache-env.outputs.cache-key }}
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: "20"
+
+            - name: Get yarn cache directory path
+              id: cache-env
+              run: |
+                  echo "cache-path=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+                  echo "cache-key=${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}" >> $GITHUB_OUTPUT
+
+            - uses: actions/cache@v4
+              id: cache
+              with:
+                  path: ${{ steps.cache-env.outputs.cache-path }}
+                  key: ${{ steps.cache-env.outputs.cache-key }}
+                  restore-keys: ${{ runner.os }}-yarn-
+
+            - if: steps.cache.outputs.cache-hit != 'true'
+              run: yarn
+
     get-changed-files:
         runs-on: ubuntu-latest
+        outputs:
+            any_changed: ${{ steps.changed-files.outputs.any_changed }}
         steps:
             - uses: actions/checkout@v4
             - name: Get changed files
@@ -22,49 +51,59 @@ jobs:
                   files: packages/**/*.{sol,json,ts}
 
     compile:
-        if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
+        if: ${{ needs.get-changed-files.outputs.any_changed }}
+        needs: [get-changed-files, deps]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version: "20"
-                  cache: yarn
+            - uses: actions/cache/restore@v4
+              with:
+                  path: ${{ needs.deps.outputs.cache-path }}
+                  key: ${{ needs.deps.outputs.cache-key }}
 
-            - run: yarn
             - run: yarn compile
 
             - name: Upload compilation results
-              uses: actions/upload-artifacts@v4
+              uses: actions/upload-artifact@v4
               with:
                   name: all-artifacts
                   path: packages/**/artifacts/**
 
     style:
+        needs: deps
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version: "20"
-                  cache: yarn
-            - run: yarn
+            - uses: actions/cache/restore@v4
+              with:
+                  path: ${{ needs.deps.outputs.cache-path }}
+                  key: ${{ needs.deps.outputs.cache-key }}
+
             - run: yarn format
     tests:
-        if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
+        if: ${{ needs.get-changed-files.outputs.any_changed }}
+        needs: compile
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
               with:
                   node-version: "20"
-                  cache: yarn
+            - uses: actions/cache/restore@v4
+              with:
+                  path: ${{ needs.deps.outputs.cache-path }}
+                  key: ${{ needs.deps.outputs.cache-key }}
             - uses: actions/download-artifact@v4
               with:
                   name: all-artifacts
                   path: packages/
-            - run: yarn compile
-            - run: yarn
+
             - run: yarn test
 
             - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -74,6 +113,7 @@ jobs:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
 
     set-slither-matrix:
+        needs: get-changed-files
         if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
         runs-on: ubuntu-latest
         outputs:
@@ -87,8 +127,8 @@ jobs:
                   echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
     slither:
-        if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: set-slither-matrix
+        if: ${{ needs.get-changed-files.outputs.any_changed }}
+        needs: [set-slither-matrix, compile]
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -98,10 +138,6 @@ jobs:
                 dir: ${{ fromJson(needs.set-slither-matrix.outputs.matrix) }}
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
-              with:
-                  node-version: "20"
-                  cache: yarn
 
             - name: Run slither
               uses: crytic/slither-action@v0.4.0
