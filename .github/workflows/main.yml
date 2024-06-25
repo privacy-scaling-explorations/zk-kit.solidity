@@ -153,7 +153,8 @@ jobs:
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
                   yarn workspace "$workspace" run compile
 
-            - name: Run slither
+            - if: contains(needs.get-changed-files.outputs.modified_files, ${{ matrix.dir }})
+              name: Run slither
               uses: crytic/slither-action@v0.4.0
               id: slither
               with:
