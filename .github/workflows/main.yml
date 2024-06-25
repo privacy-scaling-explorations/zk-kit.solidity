@@ -135,6 +135,9 @@ jobs:
                 dir: ${{ fromJson(needs.set-slither-matrix.outputs.matrix) }}
         steps:
             - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node_version: "20"
 
             - name: Run slither
               uses: crytic/slither-action@v0.4.0
