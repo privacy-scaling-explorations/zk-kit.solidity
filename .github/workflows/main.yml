@@ -85,7 +85,7 @@ jobs:
             - run: yarn format
     tests:
         if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
-        needs: compile
+        needs: [deps, compile]
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
