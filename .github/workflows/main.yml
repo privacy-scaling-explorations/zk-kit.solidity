@@ -21,7 +21,7 @@ jobs:
               with:
                   node-version: "20"
 
-            - name: Get yarn cache directory path
+            - name: Output cache key
               id: cache-env
               run: echo "cache-key=${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}" >> $GITHUB_OUTPUT
 
