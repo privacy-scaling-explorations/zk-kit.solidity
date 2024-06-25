@@ -86,6 +86,10 @@ jobs:
         if: ${{ needs.get-changed-files.outputs.any_changed == 'true' }}
         needs: [deps, compile]
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                dir: ${{ fromJson(needs.set-slither-matrix.outputs.matrix) }}
+
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
@@ -100,7 +104,11 @@ jobs:
                   name: all-artifacts
                   path: packages/
 
-            - run: yarn test
+            - if: contains(needs.get-changed-files.outputs.modified_files, matrix.dir)
+              name: Test
+              run: |
+                  workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
+                  yarn worksace "$workspace" run test:coverage
 
             - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
               name: Coveralls
@@ -148,7 +156,9 @@ jobs:
               with:
                   path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
-            - run: |
+            - if: contains(needs.get-changed-files.outputs.modified_files, matrix.dir)
+              name: Compile contracts
+              run: |
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
                   yarn workspace "$workspace" run compile
 
