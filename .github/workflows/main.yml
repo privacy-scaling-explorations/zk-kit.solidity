@@ -14,7 +14,6 @@ jobs:
     deps:
         runs-on: ubuntu-latest
         outputs:
-            cache-path: ${{ steps.cache-env.outputs.cache-path }}
             cache-key: ${{ steps.cache-env.outputs.cache-key }}
         steps:
             - uses: actions/checkout@v4
@@ -24,16 +23,14 @@ jobs:
 
             - name: Get yarn cache directory path
               id: cache-env
-              run: |
-                  echo "cache-path=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-                  echo "cache-key=${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}" >> $GITHUB_OUTPUT
+              run: echo "cache-key=${{ runner.os }}-node_modules-${{ hashFiles('**/yarn.lock') }}" >> $GITHUB_OUTPUT
 
             - uses: actions/cache@v4
               id: cache
               with:
-                  path: ${{ steps.cache-env.outputs.cache-path }}
+                  path: node_modules
                   key: ${{ steps.cache-env.outputs.cache-key }}
-                  restore-keys: ${{ runner.os }}-yarn-
+                  restore-keys: ${{ runner.os }}-node_modules-
 
             - if: steps.cache.outputs.cache-hit != 'true'
               run: yarn
@@ -61,7 +58,7 @@ jobs:
                   node-version: "20"
             - uses: actions/cache/restore@v4
               with:
-                  path: ${{ needs.deps.outputs.cache-path }}
+                  path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
 
             - run: yarn compile
@@ -82,7 +79,7 @@ jobs:
                   node-version: "20"
             - uses: actions/cache/restore@v4
               with:
-                  path: ${{ needs.deps.outputs.cache-path }}
+                  path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
 
             - run: yarn format
@@ -97,7 +94,7 @@ jobs:
                   node-version: "20"
             - uses: actions/cache/restore@v4
               with:
-                  path: ${{ needs.deps.outputs.cache-path }}
+                  path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
             - uses: actions/download-artifact@v4
               with:
