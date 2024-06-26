@@ -113,11 +113,10 @@ jobs:
 
     coveralls:
         runs-on: ubuntu-latest
-        if: needs.changed-files.outputs.any_changed == 'true'
+        if: needs.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
         needs: tests
         steps:
-            - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-              name: Coveralls
+            - name: Coveralls
               uses: coverallsapp/github-action@v2
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
