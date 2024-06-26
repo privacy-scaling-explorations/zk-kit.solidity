@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity >=0.8.0;
 
 import {Excubia} from "../Excubia.sol";
 import {IEAS} from "@ethereum-attestation-service/eas-contracts/contracts/IEAS.sol";
@@ -49,17 +49,28 @@ contract EASExcubia is Excubia {
         SCHEMA = _schema;
     }
 
-    /// @notice Overrides the `_check` function to validate against specific criteria.
+    /// @notice Internal function to handle the passing logic with check.
+    /// @dev Calls the parent `_pass` function and registers the attestation to avoid double checks.
     /// @param passerby The address of the entity attempting to pass the gate.
-    /// @param data Encoded attestation ID.
-    /// @return True if the attestation meets all criteria, revert otherwise.
-    function _check(address passerby, bytes calldata data) internal override returns (bool) {
+    /// @param data Additional data required for the check (e.g., encoded attestation ID).
+    function _pass(address passerby, bytes calldata data) internal override {
+        super._pass(passerby, data);
+
         bytes32 attestationId = abi.decode(data, (bytes32));
 
         // Avoiding double check of the same attestation.
         if (registeredAttestations[attestationId]) revert AlreadyRegistered();
 
         registeredAttestations[attestationId] = true;
+    }
+
+    /// @notice Internal function to handle the gate protection (attestation check) logic.
+    /// @dev Checks if the attestation matches the schema, attester, recipient, and is not revoked.
+    /// @param passerby The address of the entity attempting to pass the gate.
+    /// @param data Additional data required for the check (e.g., encoded attestation ID).
+    /// @return True if the attestation is valid and the passerby passes the check, false otherwise.
+    function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+        bytes32 attestationId = abi.decode(data, (bytes32));
 
         Attestation memory attestation = EAS.getAttestation(attestationId);
 

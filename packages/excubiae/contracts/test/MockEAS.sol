@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity >=0.8.0;
 
 /* solhint-disable max-line-length */
 import {IEAS, ISchemaRegistry, AttestationRequest, MultiAttestationRequest, DelegatedAttestationRequest, MultiDelegatedAttestationRequest, DelegatedRevocationRequest, RevocationRequest, MultiRevocationRequest, MultiDelegatedRevocationRequest} from "@ethereum-attestation-service/eas-contracts/contracts/IEAS.sol";

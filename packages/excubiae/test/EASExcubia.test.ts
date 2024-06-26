@@ -55,80 +55,134 @@ describe("EASExcubia", function () {
     })
 
     describe("EASExcubia", function () {
-        it("should fail to set the gate when the caller is not the owner", async () => {
-            const [, notOwnerSigner] = await ethers.getSigners()
+        describe("setGate()", function () {
+            it("should fail to set the gate when the caller is not the owner", async () => {
+                const [, notOwnerSigner] = await ethers.getSigners()
 
-            await expect(easExcubia.connect(notOwnerSigner).setGate(gateAddress)).to.be.revertedWithCustomError(
-                easExcubia,
-                "OwnableUnauthorizedAccount"
-            )
-        })
+                await expect(easExcubia.connect(notOwnerSigner).setGate(gateAddress)).to.be.revertedWithCustomError(
+                    easExcubia,
+                    "OwnableUnauthorizedAccount"
+                )
+            })
 
-        it("should fail to set the gate when the gate address is zero", async () => {
-            await expect(easExcubia.setGate(ZeroAddress)).to.be.revertedWithCustomError(easExcubia, "ZeroAddress")
-        })
+            it("should fail to set the gate when the gate address is zero", async () => {
+                await expect(easExcubia.setGate(ZeroAddress)).to.be.revertedWithCustomError(easExcubia, "ZeroAddress")
+            })
 
-        it("Should set the gate contract address correctly", async function () {
-            await easExcubia.setGate(gateAddress).then((tx) => tx.wait())
-
-            expect(await easExcubia.gate()).to.eq(gateAddress)
-        })
-
-        it("Should fail to set the gate if already set", async function () {
-            await expect(easExcubia.setGate(gateAddress)).to.be.revertedWithCustomError(easExcubia, "GateAlreadySet")
-        })
-
-        it("should throw when the callee is not the gate", async () => {
-            await expect(
-                easExcubia.connect(signer).pass(signerAddress, invalidRecipientAttestationId)
-            ).to.be.revertedWithCustomError(easExcubia, "GateOnly")
-        })
-
-        it("should throw when the attestation is not owned by the correct recipient", async () => {
-            await expect(
-                easExcubia.connect(gate).pass(signerAddress, invalidRecipientAttestationId)
-            ).to.be.revertedWithCustomError(easExcubia, "UnexpectedRecipient")
-        })
-
-        it("should throw when the attestation has been revoked", async () => {
-            await expect(
-                easExcubia.connect(gate).pass(signerAddress, revokedAttestationId)
-            ).to.be.revertedWithCustomError(easExcubia, "RevokedAttestation")
-        })
-
-        it("should throw when the attestation schema is not the one expected", async () => {
-            await expect(
-                easExcubia.connect(gate).pass(signerAddress, invalidSchemaAttestationId)
-            ).to.be.revertedWithCustomError(easExcubia, "UnexpectedSchema")
-        })
-
-        it("should throw when the attestation is not signed by the attestation owner", async () => {
-            await expect(
-                easExcubia.connect(gate).pass(signerAddress, invalidAttesterAttestationId)
-            ).to.be.revertedWithCustomError(easExcubia, "UnexpectedAttester")
-        })
-
-        it("should pass the check", async () => {
-            const tx = await easExcubia.connect(gate).pass(signerAddress, validAttestationId)
-            const receipt = await tx.wait()
-            const event = EASExcubiaContract.interface.parseLog(
-                receipt?.logs[0] as unknown as { topics: string[]; data: string }
-            ) as unknown as {
-                args: {
-                    passerby: string
-                    gate: string
+            it("Should set the gate contract address correctly", async function () {
+                const tx = await easExcubia.setGate(gateAddress)
+                const receipt = await tx.wait()
+                const event = EASExcubiaContract.interface.parseLog(
+                    receipt?.logs[0] as unknown as { topics: string[]; data: string }
+                ) as unknown as {
+                    args: {
+                        gate: string
+                    }
                 }
-            }
 
-            expect(receipt?.status).to.eq(1)
-            expect(event.args.passerby).to.eq(signerAddress)
-            expect(event.args.gate).to.eq(gateAddress)
+                expect(receipt?.status).to.eq(1)
+                expect(event.args.gate).to.eq(gateAddress)
+                expect(await easExcubia.gate()).to.eq(gateAddress)
+            })
+
+            it("Should fail to set the gate if already set", async function () {
+                await expect(easExcubia.setGate(gateAddress)).to.be.revertedWithCustomError(
+                    easExcubia,
+                    "GateAlreadySet"
+                )
+            })
         })
 
-        it("should prevent to pass twice", async () => {
-            await expect(
-                easExcubia.connect(gate).pass(signerAddress, validAttestationId)
-            ).to.be.revertedWithCustomError(easExcubia, "AlreadyRegistered")
+        describe("check()", function () {
+            it("should throw when the attestation is not owned by the correct recipient", async () => {
+                await expect(
+                    easExcubia.check(signerAddress, invalidRecipientAttestationId)
+                ).to.be.revertedWithCustomError(easExcubia, "UnexpectedRecipient")
+            })
+
+            it("should throw when the attestation has been revoked", async () => {
+                await expect(easExcubia.check(signerAddress, revokedAttestationId)).to.be.revertedWithCustomError(
+                    easExcubia,
+                    "RevokedAttestation"
+                )
+            })
+
+            it("should throw when the attestation schema is not the one expected", async () => {
+                await expect(easExcubia.check(signerAddress, invalidSchemaAttestationId)).to.be.revertedWithCustomError(
+                    easExcubia,
+                    "UnexpectedSchema"
+                )
+            })
+
+            it("should throw when the attestation is not signed by the attestation owner", async () => {
+                await expect(
+                    easExcubia.check(signerAddress, invalidAttesterAttestationId)
+                ).to.be.revertedWithCustomError(easExcubia, "UnexpectedAttester")
+            })
+
+            it("should pass the check", async () => {
+                const passed = await easExcubia.check(signerAddress, validAttestationId)
+
+                expect(passed).to.be.true
+                // check does NOT change the state of the contract (see pass()).
+                expect(await easExcubia.registeredAttestations(validAttestationId)).to.be.false
+            })
+        })
+
+        describe("pass()", function () {
+            it("should throw when the callee is not the gate", async () => {
+                await expect(
+                    easExcubia.connect(signer).pass(signerAddress, invalidRecipientAttestationId)
+                ).to.be.revertedWithCustomError(easExcubia, "GateOnly")
+            })
+
+            it("should throw when the attestation is not owned by the correct recipient", async () => {
+                await expect(
+                    easExcubia.connect(gate).pass(signerAddress, invalidRecipientAttestationId)
+                ).to.be.revertedWithCustomError(easExcubia, "UnexpectedRecipient")
+            })
+
+            it("should throw when the attestation has been revoked", async () => {
+                await expect(
+                    easExcubia.connect(gate).pass(signerAddress, revokedAttestationId)
+                ).to.be.revertedWithCustomError(easExcubia, "RevokedAttestation")
+            })
+
+            it("should throw when the attestation schema is not the one expected", async () => {
+                await expect(
+                    easExcubia.connect(gate).pass(signerAddress, invalidSchemaAttestationId)
+                ).to.be.revertedWithCustomError(easExcubia, "UnexpectedSchema")
+            })
+
+            it("should throw when the attestation is not signed by the attestation owner", async () => {
+                await expect(
+                    easExcubia.connect(gate).pass(signerAddress, invalidAttesterAttestationId)
+                ).to.be.revertedWithCustomError(easExcubia, "UnexpectedAttester")
+            })
+
+            it("should pass the check", async () => {
+                const tx = await easExcubia.connect(gate).pass(signerAddress, validAttestationId)
+                const receipt = await tx.wait()
+                const event = EASExcubiaContract.interface.parseLog(
+                    receipt?.logs[0] as unknown as { topics: string[]; data: string }
+                ) as unknown as {
+                    args: {
+                        passerby: string
+                        gate: string
+                    }
+                }
+
+                expect(receipt?.status).to.eq(1)
+                expect(event.args.passerby).to.eq(signerAddress)
+                expect(event.args.gate).to.eq(gateAddress)
+                expect(await easExcubia.registeredAttestations(validAttestationId)).to.be.true
+            })
+
+            it("should prevent to pass twice", async () => {
+                await expect(
+                    easExcubia.connect(gate).pass(signerAddress, validAttestationId)
+                ).to.be.revertedWithCustomError(easExcubia, "AlreadyRegistered")
+            })
         })
     })
 })
