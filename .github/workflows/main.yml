@@ -111,6 +111,11 @@ jobs:
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
                   yarn workspace "$workspace" run test:coverage
 
+    coveralls:
+        runs-on: ubuntu-latest
+        if: needs.changed-files.outputs.any_changed == 'true'
+        needs: tests
+        steps:
             - if: github.event_name == 'push' && github.ref == 'refs/heads/main'
               name: Coveralls
               uses: coverallsapp/github-action@v2
