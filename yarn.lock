@@ -1568,10 +1568,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/imt@npm:^2.0.0-beta.4":
-  version: 2.0.0-beta.4
-  resolution: "@zk-kit/imt@npm:2.0.0-beta.4"
-  checksum: 10/9e042472c81bb362ad4580eb3ab69b4d07bacc224d920a5539ed326855e99c70824cc795732642318c6ea2533b48e980009968fe996e4bfde9dbfbbf4a3e14bb
+"@zk-kit/imt@npm:^2.0.0-beta.5":
+  version: 2.0.0-beta.5
+  resolution: "@zk-kit/imt@npm:2.0.0-beta.5"
+  dependencies:
+    "@zk-kit/utils": "npm:1.0.0"
+  checksum: 10/666a84ea2be5893c9bd0e1cee487a3896304948ed08f9033fd54fabda0961ec93b152a23fd90d6b8504b4dfff2581c68e1310022adac38f4a3a53846e0e149c0
   languageName: node
   linkType: hard
 
@@ -1599,21 +1601,21 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/lean-imt@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@zk-kit/lean-imt@npm:2.0.0"
+"@zk-kit/lean-imt@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "@zk-kit/lean-imt@npm:2.0.1"
   dependencies:
-    "@zk-kit/utils": "npm:1.0.0-beta.4"
-  checksum: 10/b095b400d96291304a90b67e425349a27f7281a12f199aee7020f92c5e2e360515d1d66a379f2cd1cb3ef9cd3150c179e9e7859732c427921ee76a58f903aece
+    "@zk-kit/utils": "npm:1.0.0"
+  checksum: 10/33d03a20c3ce6270036d4cc0a96100b4f6e17f373688595937d2a0863883562b648a768c11ab938fd83ed65d7a70b542db647e3d9e0b5e050c02efc5df0543ce
   languageName: node
   linkType: hard
 
-"@zk-kit/utils@npm:1.0.0-beta.4":
-  version: 1.0.0-beta.4
-  resolution: "@zk-kit/utils@npm:1.0.0-beta.4"
+"@zk-kit/utils@npm:1.0.0":
+  version: 1.0.0
+  resolution: "@zk-kit/utils@npm:1.0.0"
   dependencies:
     buffer: "npm:^6.0.3"
-  checksum: 10/6e9ba05bca4db2fd1c08c8a4dfd3c4ff5bcab205d0fb679278898c40d36cd4d07bbc0d33ac1c97a98e4110ff0370d1138f31fc1f20a6d3914b41d8c063fa1df3
+  checksum: 10/a471025ca4c69a825bebf2c68a0d83c55c345c8843f28eeb958f1e2aa549aaa982939c1d6d819dda337601163064f382e450d09103ba4d9a0525281a0a23696b
   languageName: node
   linkType: hard
 
@@ -4452,7 +4454,7 @@ __metadata:
     "@types/chai": "npm:^4.2.0"
     "@types/mocha": "npm:^10.0.6"
     "@types/node": "npm:^20.10.7"
-    "@zk-kit/imt": "npm:^2.0.0-beta.4"
+    "@zk-kit/imt": "npm:^2.0.0-beta.5"
     chai: "npm:^4.2.0"
     ethers: "npm:^6.4.0"
     hardhat: "npm:^2.19.4"
@@ -4925,7 +4927,7 @@ __metadata:
     "@types/chai": "npm:^4.2.0"
     "@types/mocha": "npm:^10.0.6"
     "@types/node": "npm:^20.10.7"
-    "@zk-kit/imt": "npm:^2.0.0-beta.4"
+    "@zk-kit/imt": "npm:^2.0.0-beta.5"
     chai: "npm:^4.2.0"
     ethers: "npm:^6.4.0"
     hardhat: "npm:^2.19.4"
@@ -4986,7 +4988,7 @@ __metadata:
     "@types/chai": "npm:^4.2.0"
     "@types/mocha": "npm:^10.0.6"
     "@types/node": "npm:^20.10.7"
-    "@zk-kit/lean-imt": "npm:^2.0.0"
+    "@zk-kit/lean-imt": "npm:^2.0.1"
     chai: "npm:^4.2.0"
     ethers: "npm:^6.4.0"
     hardhat: "npm:^2.19.4"
