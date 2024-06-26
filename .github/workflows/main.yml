@@ -113,7 +113,7 @@ jobs:
 
     coveralls:
         runs-on: ubuntu-latest
-        if: needs.changed-files.outputs.any_changed == 'true' && github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: needs.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request' && github.ref == 'refs/pull/15/merge'
         needs: [changed-files, tests]
         steps:
             - name: Coveralls
