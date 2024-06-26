@@ -55,6 +55,5 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     /// @dev Custom logic to determine if the passerby can pass the gate.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data that may be required for the check.
-    /// @return passed True if the passerby passes the check, false otherwise.
-    function _check(address passerby, bytes calldata data) internal view virtual returns (bool passed) {}
+    function _check(address passerby, bytes calldata data) internal view virtual returns (bool) {}
 }
