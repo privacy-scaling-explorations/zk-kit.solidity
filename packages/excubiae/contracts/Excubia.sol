@@ -4,6 +4,8 @@ pragma solidity >=0.8.0 <0.9.0;
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {IExcubia} from "./IExcubia.sol";
 
+// trigger slither job
+
 /// @title Excubia.
 /// @notice Abstract base contract which can be extended to implement a specific excubia.
 /// @dev Inherit from this contract and implement the `_check` method to define
