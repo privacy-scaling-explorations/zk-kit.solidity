@@ -22,9 +22,6 @@ contract EASExcubia is Excubia {
     /// avoid double checks with the same attestation.
     mapping(bytes32 => bool) public registeredAttestations;
 
-    /// @notice Error thrown when the attestation has been already used to pass the gate.
-    error AlreadyRegistered();
-
     /// @notice Error thrown when the attestation does not match the designed schema.
     error UnexpectedSchema();
 
