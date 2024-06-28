@@ -57,7 +57,7 @@ yarn add @zk-kit/excubiae
 To build your own Excubia:
 
 1. Inherit from the [Excubia](./Excubia.sol) abstract contract that conforms to the [IExcubia](./IExcubia.sol) interface.
-2. Implement the `_check()` and `_pass()` methods logic defining your own checks to prevent unwanted access (sybils, double checks).
+2. Implement the `_check()` and `_pass()` methods logic defining your own checks to prevent unwanted access as sybils or avoid to pass the gate twice with the same data / identity.
 
 ```solidity
 // SPDX-License-Identifier: MIT

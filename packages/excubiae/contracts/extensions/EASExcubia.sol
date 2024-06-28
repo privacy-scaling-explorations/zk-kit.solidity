@@ -19,7 +19,7 @@ contract EASExcubia is Excubia {
     address public immutable ATTESTER;
 
     /// @notice Mapping to track which attestations have been registered by the contract to
-    /// avoid double checks with the same attestation.
+    /// avoid pass the gate twice with the same attestation.
     mapping(bytes32 => bool) public registeredAttestations;
 
     /// @notice Error thrown when the attestation has been already used to pass the gate.
@@ -50,7 +50,7 @@ contract EASExcubia is Excubia {
     }
 
     /// @notice Internal function to handle the passing logic with check.
-    /// @dev Calls the parent `_pass` function and registers the attestation to avoid double checks.
+    /// @dev Calls the parent `_pass` function and registers the attestation to avoid pass the gate twice.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded attestation ID).
     function _pass(address passerby, bytes calldata data) internal override {
@@ -58,7 +58,7 @@ contract EASExcubia is Excubia {
 
         bytes32 attestationId = abi.decode(data, (bytes32));
 
-        // Avoiding double check of the same attestation.
+        // Avoiding passing the gate twice using the same attestation.
         if (registeredAttestations[attestationId]) revert AlreadyRegistered();
 
         registeredAttestations[attestationId] = true;
