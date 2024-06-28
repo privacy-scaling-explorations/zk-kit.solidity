@@ -21,7 +21,7 @@ contract ERC721Excubia is Excubia {
 
     /// @notice Constructor to initialize with target ERC721 contract.
     /// @param _erc721 The address of the ERC721 contract.
-    constructor(address _erc721) payable {
+    constructor(address _erc721) {
         if (_erc721 == address(0)) revert ZeroAddress();
 
         NFT = IERC721(_erc721);
