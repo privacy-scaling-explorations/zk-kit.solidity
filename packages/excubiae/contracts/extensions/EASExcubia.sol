@@ -67,6 +67,8 @@ contract EASExcubia is Excubia {
     /// @param data Additional data required for the check (e.g., encoded attestation ID).
     /// @return True if the attestation is valid and the passerby passes the check, false otherwise.
     function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+        super._check(passerby, data);
+
         bytes32 attestationId = abi.decode(data, (bytes32));
 
         Attestation memory attestation = EAS.getAttestation(attestationId);

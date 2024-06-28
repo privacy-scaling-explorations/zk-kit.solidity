@@ -12,7 +12,7 @@ contract FreeForAllExcubia is Excubia {
     constructor() {}
 
     /// @notice Mapping to track already registered passersby.
-    mapping(bytes32 => bool) public registeredPassersby;
+    mapping(address => bool) public registeredPassersby;
 
     /// @notice Internal function to handle the gate passing logic.
     /// @dev This function calls the parent `_pass` function and then tracks the passerby.
@@ -21,18 +21,18 @@ contract FreeForAllExcubia is Excubia {
     function _pass(address passerby, bytes calldata data) internal override {
         super._pass(passerby, data);
 
-        bytes32 encodedPasserby = keccak256(abi.encodePacked(passerby));
-
         // Avoiding double check of the same passerby.
-        if (registeredPassersby[encodedPasserby]) revert AlreadyRegistered();
+        if (registeredPassersby[passerby]) revert AlreadyRegistered();
 
-        registeredPassersby[encodedPasserby] = true;
+        registeredPassersby[passerby] = true;
     }
 
     /// @notice Internal function to handle the gate protection logic.
     /// @dev This function always returns true, signaling that any passerby is able to pass the gate.
     /// @return True, allowing any passerby to pass the gate.
-    function _check(address /*passerby*/, bytes calldata /*data*/) internal pure override returns (bool) {
-        return true; /// @todo check if optional.
+    function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+        super._check(passerby, data);
+
+        return true;
     }
 }

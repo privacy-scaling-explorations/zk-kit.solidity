@@ -48,6 +48,8 @@ contract ERC721Excubia is Excubia {
     /// @param data Additional data required for the check (e.g., encoded token ID).
     /// @return True if the passerby owns the token, false otherwise.
     function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+        super._check(passerby, data);
+
         uint256 tokenId = abi.decode(data, (uint256));
 
         // Check if the user owns the token.

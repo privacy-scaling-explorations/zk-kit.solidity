@@ -1,6 +1,6 @@
 import { expect } from "chai"
 import { ethers } from "hardhat"
-import { Signer, ZeroAddress } from "ethers"
+import { AbiCoder, Signer, ZeroAddress, toBeHex, zeroPadBytes } from "ethers"
 import { EASExcubia, EASExcubia__factory, MockEAS, MockEAS__factory } from "../typechain-types"
 
 describe("EASExcubia", function () {
@@ -18,11 +18,11 @@ describe("EASExcubia", function () {
     let mockEASAddress: string
 
     const schemaId = "0xfdcfdad2dbe7489e0ce56b260348b7f14e8365a8a325aef9834818c00d46b31b"
-    const validAttestationId = ethers.encodeBytes32String("0x01")
-    const revokedAttestationId = ethers.encodeBytes32String("0x02")
-    const invalidSchemaAttestationId = ethers.encodeBytes32String("0x03")
-    const invalidRecipientAttestationId = ethers.encodeBytes32String("0x04")
-    const invalidAttesterAttestationId = ethers.encodeBytes32String("0x05")
+    const validAttestationId = AbiCoder.defaultAbiCoder().encode(["bytes32"], [zeroPadBytes(toBeHex(1), 32)])
+    const revokedAttestationId = AbiCoder.defaultAbiCoder().encode(["bytes32"], [zeroPadBytes(toBeHex(2), 32)])
+    const invalidSchemaAttestationId = AbiCoder.defaultAbiCoder().encode(["bytes32"], [zeroPadBytes(toBeHex(3), 32)])
+    const invalidRecipientAttestationId = AbiCoder.defaultAbiCoder().encode(["bytes32"], [zeroPadBytes(toBeHex(4), 32)])
+    const invalidAttesterAttestationId = AbiCoder.defaultAbiCoder().encode(["bytes32"], [zeroPadBytes(toBeHex(5), 32)])
 
     before(async function () {
         ;[signer, gate] = await ethers.getSigners()
@@ -46,11 +46,17 @@ describe("EASExcubia", function () {
             expect(mockEAS).to.not.eq(undefined)
         })
 
-        it("Should fail to deploy EASExcubia when attester parameter is not valid", async () => {
-            await expect(EASExcubiaContract.deploy(signerAddress, ZeroAddress, schemaId)).to.be.revertedWithCustomError(
+        it("Should fail to deploy EASExcubia when eas parameter is not valid", async () => {
+            await expect(EASExcubiaContract.deploy(ZeroAddress, ZeroAddress, schemaId)).to.be.revertedWithCustomError(
                 easExcubia,
                 "ZeroAddress"
             )
+        })
+
+        it("Should fail to deploy EASExcubia when attester parameter is not valid", async () => {
+            await expect(
+                EASExcubiaContract.deploy(await easExcubia.getAddress(), ZeroAddress, schemaId)
+            ).to.be.revertedWithCustomError(easExcubia, "ZeroAddress")
         })
     })
 

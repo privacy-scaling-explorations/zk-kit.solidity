@@ -70,13 +70,13 @@ describe("FreeForAllExcubia", function () {
     })
 
     describe("check()", function () {
-        it("should pass the check", async () => {
+        it("should check", async () => {
             // `data` parameter value can be whatever (e.g., ZeroHash default).
             const passed = await freeForAllExcubia.check(signerAddress, ZeroHash)
 
             expect(passed).to.be.true
             // check does NOT change the state of the contract (see pass()).
-            expect(await freeForAllExcubia.registeredPassersby(ethers.keccak256(signerAddress))).to.be.false
+            expect(await freeForAllExcubia.registeredPassersby(signerAddress)).to.be.false
         })
     })
 
@@ -88,7 +88,7 @@ describe("FreeForAllExcubia", function () {
             ).to.be.revertedWithCustomError(freeForAllExcubia, "GateOnly")
         })
 
-        it("should pass the check", async () => {
+        it("should pass", async () => {
             // `data` parameter value can be whatever (e.g., ZeroHash default).
             const tx = await freeForAllExcubia.connect(gate).pass(signerAddress, ZeroHash)
             const receipt = await tx.wait()
@@ -104,7 +104,7 @@ describe("FreeForAllExcubia", function () {
             expect(receipt?.status).to.eq(1)
             expect(event.args.passerby).to.eq(signerAddress)
             expect(event.args.gate).to.eq(gateAddress)
-            expect(await freeForAllExcubia.registeredPassersby(ethers.keccak256(signerAddress))).to.be.true
+            expect(await freeForAllExcubia.registeredPassersby(signerAddress)).to.be.true
         })
 
         it("should prevent to pass twice", async () => {
