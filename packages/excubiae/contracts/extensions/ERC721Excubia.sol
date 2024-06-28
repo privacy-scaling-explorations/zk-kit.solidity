@@ -13,7 +13,7 @@ contract ERC721Excubia is Excubia {
     IERC721 public immutable NFT;
 
     /// @notice Mapping to track which token IDs have been registered by the contract to
-    /// avoid double checks with the same token ID.
+    /// avoid passing the gate twice with the same token ID.
     mapping(uint256 => bool) public registeredTokenIds;
 
     /// @notice Error thrown when the passerby is not the owner of the token.
@@ -28,7 +28,7 @@ contract ERC721Excubia is Excubia {
     }
 
     /// @notice Internal function to handle the passing logic with check.
-    /// @dev Calls the parent `_pass` function and registers the NFT ID to avoid double checks.
+    /// @dev Calls the parent `_pass` function and registers the NFT ID to avoid passing the gate twice.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded token ID).
     function _pass(address passerby, bytes calldata data) internal override {
@@ -36,7 +36,7 @@ contract ERC721Excubia is Excubia {
 
         uint256 tokenId = abi.decode(data, (uint256));
 
-        // Avoiding double check of the same token ID.
+        // Avoiding passing the gate twice with the same token ID.
         if (registeredTokenIds[tokenId]) revert AlreadyRegistered();
 
         registeredTokenIds[tokenId] = true;

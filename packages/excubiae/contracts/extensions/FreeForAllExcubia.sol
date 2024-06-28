@@ -21,7 +21,7 @@ contract FreeForAllExcubia is Excubia {
     function _pass(address passerby, bytes calldata data) internal override {
         super._pass(passerby, data);
 
-        // Avoiding double check of the same passerby.
+        // Avoiding passing the gate twice with the same address.
         if (registeredPassersby[passerby]) revert AlreadyRegistered();
 
         registeredPassersby[passerby] = true;
