@@ -29,7 +29,7 @@ interface IExcubia {
     error AccessDenied();
 
     /// @notice Error thrown when the passerby has already passed the gate.
-    error AlreadyRegistered();
+    error AlreadyPassed();
 
     /// @notice Sets the gate address.
     /// @dev Only the owner can set the destination gate address.

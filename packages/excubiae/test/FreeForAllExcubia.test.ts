@@ -111,7 +111,7 @@ describe("FreeForAllExcubia", function () {
             await expect(
                 // `data` parameter value can be whatever (e.g., ZeroHash default).
                 freeForAllExcubia.connect(gate).pass(signerAddress, ZeroHash)
-            ).to.be.revertedWithCustomError(freeForAllExcubia, "AlreadyRegistered")
+            ).to.be.revertedWithCustomError(freeForAllExcubia, "AlreadyPassed")
         })
     })
 })

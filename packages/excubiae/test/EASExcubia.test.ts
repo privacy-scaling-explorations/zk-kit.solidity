@@ -185,7 +185,7 @@ describe("EASExcubia", function () {
         it("should prevent to pass twice", async () => {
             await expect(
                 easExcubia.connect(gate).pass(signerAddress, validAttestationId)
-            ).to.be.revertedWithCustomError(easExcubia, "AlreadyRegistered")
+            ).to.be.revertedWithCustomError(easExcubia, "AlreadyPassed")
         })
     })
 })

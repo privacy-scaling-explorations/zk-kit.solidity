@@ -152,7 +152,7 @@ describe("ERC721Excubia", function () {
         it("should prevent to pass twice", async () => {
             await expect(
                 erc721Excubia.connect(gate).pass(signerAddress, encodedValidTokenId)
-            ).to.be.revertedWithCustomError(erc721Excubia, "AlreadyRegistered")
+            ).to.be.revertedWithCustomError(erc721Excubia, "AlreadyPassed")
         })
     })
 })

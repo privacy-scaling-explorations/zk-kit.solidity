@@ -51,12 +51,12 @@ contract EASExcubia is Excubia {
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded attestation ID).
     function _pass(address passerby, bytes calldata data) internal override {
-        super._pass(passerby, data);
-
         bytes32 attestationId = abi.decode(data, (bytes32));
 
         // Avoiding passing the gate twice using the same attestation.
-        if (registeredAttestations[attestationId]) revert AlreadyRegistered();
+        if (registeredAttestations[attestationId]) revert AlreadyPassed();
+
+        super._pass(passerby, data);
 
         registeredAttestations[attestationId] = true;
     }

@@ -19,16 +19,18 @@ contract FreeForAllExcubia is Excubia {
     /// @param passerby The address of the entity passing the gate.
     /// @param data Additional data required for the pass (not used in this implementation).
     function _pass(address passerby, bytes calldata data) internal override {
-        super._pass(passerby, data);
-
         // Avoiding passing the gate twice with the same address.
-        if (registeredPassersby[passerby]) revert AlreadyRegistered();
+        if (registeredPassersby[passerby]) revert AlreadyPassed();
+
+        super._pass(passerby, data);
 
         registeredPassersby[passerby] = true;
     }
 
     /// @notice Internal function to handle the gate protection logic.
     /// @dev This function always returns true, signaling that any passerby is able to pass the gate.
+    /// @param passerby The address of the entity attempting to pass the gate.
+    /// @param data Additional data required for the check (e.g., encoded attestation ID).
     /// @return True, allowing any passerby to pass the gate.
     function _check(address passerby, bytes calldata data) internal view override returns (bool) {
         super._check(passerby, data);

@@ -32,12 +32,12 @@ contract ERC721Excubia is Excubia {
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded token ID).
     function _pass(address passerby, bytes calldata data) internal override {
-        super._pass(passerby, data);
-
         uint256 tokenId = abi.decode(data, (uint256));
 
         // Avoiding passing the gate twice with the same token ID.
-        if (registeredTokenIds[tokenId]) revert AlreadyRegistered();
+        if (registeredTokenIds[tokenId]) revert AlreadyPassed();
+
+        super._pass(passerby, data);
 
         registeredTokenIds[tokenId] = true;
     }
