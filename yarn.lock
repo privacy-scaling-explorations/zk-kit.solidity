@@ -1222,6 +1222,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@semaphore-protocol/contracts@npm:^4.0.0-beta.16":
+  version: 4.0.0-beta.16
+  resolution: "@semaphore-protocol/contracts@npm:4.0.0-beta.16"
+  dependencies:
+    "@zk-kit/lean-imt.sol": "npm:2.0.0"
+  checksum: 10/0ffa86c7bacef09b861d22aa9ebed51b0bf0d30b5f1d8c73cd0451b8e0e01b5c890020cbbba8ea5abd0004f7410a58da2b2aa33cf1180509908db31785ff4a6b
+  languageName: node
+  linkType: hard
+
 "@sentry/core@npm:5.30.0":
   version: 5.30.0
   resolution: "@sentry/core@npm:5.30.0"
@@ -1557,6 +1566,7 @@ __metadata:
   dependencies:
     "@ethereum-attestation-service/eas-contracts": "npm:^1.7.1"
     "@openzeppelin/contracts": "npm:^5.0.2"
+    "@semaphore-protocol/contracts": "npm:^4.0.0-beta.16"
   languageName: unknown
   linkType: soft
 
@@ -1593,7 +1603,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/lean-imt.sol@workspace:packages/lean-imt/contracts":
+"@zk-kit/lean-imt.sol@npm:2.0.0, @zk-kit/lean-imt.sol@workspace:packages/lean-imt/contracts":
   version: 0.0.0-use.local
   resolution: "@zk-kit/lean-imt.sol@workspace:packages/lean-imt/contracts"
   dependencies:
