@@ -25,12 +25,12 @@ contract MockEAS is IEAS {
         getSchemaRegistry = ISchemaRegistry(address(1));
 
         Attestation memory valid = Attestation({
-            uid: bytes32("0x01"),
+            uid: bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000"),
             schema: _schema,
             time: 0,
             expirationTime: 0,
             revocationTime: 0,
-            refUID: bytes32("0x01"),
+            refUID: bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000"),
             recipient: _recipient,
             attester: _attester,
             revocable: true,
@@ -38,12 +38,12 @@ contract MockEAS is IEAS {
         });
 
         Attestation memory revoked = Attestation({
-            uid: bytes32("0x02"),
+            uid: bytes32(hex"0200000000000000000000000000000000000000000000000000000000000000"),
             schema: _schema,
             time: 0,
             expirationTime: 0,
             revocationTime: 1,
-            refUID: bytes32("0x01"),
+            refUID: bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000"),
             recipient: _recipient,
             attester: _attester,
             revocable: true,
@@ -51,12 +51,12 @@ contract MockEAS is IEAS {
         });
 
         Attestation memory invalidSchema = Attestation({
-            uid: bytes32("0x03"),
-            schema: bytes32("0x01"),
+            uid: bytes32(hex"0300000000000000000000000000000000000000000000000000000000000000"),
+            schema: bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000"),
             time: 0,
             expirationTime: 0,
             revocationTime: 0,
-            refUID: bytes32("0x01"),
+            refUID: bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000"),
             recipient: _recipient,
             attester: _attester,
             revocable: true,
@@ -64,12 +64,12 @@ contract MockEAS is IEAS {
         });
 
         Attestation memory invalidRecipient = Attestation({
-            uid: bytes32("0x04"),
+            uid: bytes32(hex"0400000000000000000000000000000000000000000000000000000000000000"),
             schema: _schema,
             time: 0,
             expirationTime: 0,
             revocationTime: 0,
-            refUID: bytes32("0x01"),
+            refUID: bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000"),
             recipient: address(1),
             attester: _attester,
             revocable: true,
@@ -77,23 +77,29 @@ contract MockEAS is IEAS {
         });
 
         Attestation memory invalidAttester = Attestation({
-            uid: bytes32("0x05"),
+            uid: bytes32(hex"0500000000000000000000000000000000000000000000000000000000000000"),
             schema: _schema,
             time: 0,
             expirationTime: 0,
             revocationTime: 0,
-            refUID: bytes32("0x000000000000000000000000000001"),
+            refUID: bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000"),
             recipient: _recipient,
             attester: address(1),
             revocable: true,
             data: bytes("")
         });
 
-        mockedAttestations[bytes32("0x01")] = valid;
-        mockedAttestations[bytes32("0x02")] = revoked;
-        mockedAttestations[bytes32("0x03")] = invalidSchema;
-        mockedAttestations[bytes32("0x04")] = invalidRecipient;
-        mockedAttestations[bytes32("0x05")] = invalidAttester;
+        mockedAttestations[bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000")] = valid;
+        mockedAttestations[bytes32(hex"0200000000000000000000000000000000000000000000000000000000000000")] = revoked;
+        mockedAttestations[
+            bytes32(hex"0300000000000000000000000000000000000000000000000000000000000000")
+        ] = invalidSchema;
+        mockedAttestations[
+            bytes32(hex"0400000000000000000000000000000000000000000000000000000000000000")
+        ] = invalidRecipient;
+        mockedAttestations[
+            bytes32(hex"0500000000000000000000000000000000000000000000000000000000000000")
+        ] = invalidAttester;
     }
 
     /// @notice Retrieves a mocked attestation by its unique identifier.

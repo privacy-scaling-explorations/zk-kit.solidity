@@ -28,6 +28,9 @@ interface IExcubia {
     /// @notice Error thrown when access is denied by the excubia.
     error AccessDenied();
 
+    /// @notice Error thrown when the passerby has already passed the gate.
+    error AlreadyPassed();
+
     /// @notice Sets the gate address.
     /// @dev Only the owner can set the destination gate address.
     /// @param _gate The address of the contract to be set as the gate.

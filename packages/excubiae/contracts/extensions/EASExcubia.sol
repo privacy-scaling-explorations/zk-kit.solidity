@@ -22,9 +22,6 @@ contract EASExcubia is Excubia {
     /// avoid pass the gate twice with the same attestation.
     mapping(bytes32 => bool) public registeredAttestations;
 
-    /// @notice Error thrown when the attestation has been already used to pass the gate.
-    error AlreadyRegistered();
-
     /// @notice Error thrown when the attestation does not match the designed schema.
     error UnexpectedSchema();
 
@@ -54,12 +51,12 @@ contract EASExcubia is Excubia {
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded attestation ID).
     function _pass(address passerby, bytes calldata data) internal override {
-        super._pass(passerby, data);
-
         bytes32 attestationId = abi.decode(data, (bytes32));
 
         // Avoiding passing the gate twice using the same attestation.
-        if (registeredAttestations[attestationId]) revert AlreadyRegistered();
+        if (registeredAttestations[attestationId]) revert AlreadyPassed();
+
+        super._pass(passerby, data);
 
         registeredAttestations[attestationId] = true;
     }
@@ -70,6 +67,8 @@ contract EASExcubia is Excubia {
     /// @param data Additional data required for the check (e.g., encoded attestation ID).
     /// @return True if the attestation is valid and the passerby passes the check, false otherwise.
     function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+        super._check(passerby, data);
+
         bytes32 attestationId = abi.decode(data, (bytes32));
 
         Attestation memory attestation = EAS.getAttestation(attestationId);
