@@ -39,7 +39,7 @@ contract SemaphoreExcubia is Excubia {
 
         SEMAPHORE = ISemaphore(_semaphore);
 
-        if (SEMAPHORE.groupCounter() < _groupId) revert InvalidGroup();
+        if (ISemaphore(_semaphore).groupCounter() < _groupId) revert InvalidGroup();
 
         GROUP_ID = _groupId;
     }
