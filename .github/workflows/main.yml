@@ -111,7 +111,7 @@ jobs:
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
                   yarn workspace "$workspace" run test:coverage
 
-            - if: needs.changed-files.outputs.any_changed == 'true' && github.event_name == 'pull_request' && github.ref == 'refs/pull/15/merge'
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir) && github.event_name == 'pull_request' && github.ref == 'refs/pull/15/merge'
               name: Coveralls
               uses: coverallsapp/github-action@v2
               with:
