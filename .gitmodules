@@ -1,0 +1,6 @@
+[submodule "test/hello_foundry/lib/forge-std"]
+	path = test/hello_foundry/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "packages/lean-imt/lib/poseidon-solidity"]
+	path = packages/lean-imt/lib/poseidon-solidity
+	url = https://github.com/vimwitch/poseidon-solidity
