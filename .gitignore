@@ -80,3 +80,6 @@ typechain-types
 
 .envrc
 .tool-versions
+
+# forge build output
+out
