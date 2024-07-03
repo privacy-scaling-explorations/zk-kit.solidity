@@ -109,6 +109,11 @@ jobs:
                   name: all-artifacts
                   path: packages/
 
+            # TODO: right now forge and node tooling coexist, eventually keep only forge action
+            - uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: nightly
+
             - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Test
               run: |
