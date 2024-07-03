@@ -110,9 +110,8 @@ describe("ERC721Excubia", function () {
         })
 
         it("should check", async () => {
-            const passed = await erc721Excubia.check(signerAddress, encodedValidTokenId)
+            await expect(erc721Excubia.check(signerAddress, encodedValidTokenId)).to.not.be.reverted
 
-            expect(passed).to.be.true
             // check does NOT change the state of the contract (see pass()).
             expect(await erc721Excubia.registeredTokenIds(rawValidTokenId)).to.be.false
         })

@@ -37,8 +37,8 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     }
 
     /// @inheritdoc IExcubia
-    function check(address passerby, bytes calldata data) external view returns (bool) {
-        return _check(passerby, data);
+    function check(address passerby, bytes calldata data) external view {
+        _check(passerby, data);
     }
 
     /// @notice Internal function to enforce the custom gate passing logic.
@@ -46,7 +46,7 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded token identifier).
     function _pass(address passerby, bytes calldata data) internal virtual {
-        if (!_check(passerby, data)) revert AccessDenied();
+        _check(passerby, data);
 
         emit GatePassed(passerby, gate);
     }
@@ -55,5 +55,5 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     /// @dev Custom logic to determine if the passerby can pass the gate.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data that may be required for the check.
-    function _check(address passerby, bytes calldata data) internal view virtual returns (bool) {}
+    function _check(address passerby, bytes calldata data) internal view virtual {}
 }

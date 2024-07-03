@@ -65,8 +65,7 @@ contract EASExcubia is Excubia {
     /// @dev Checks if the attestation matches the schema, attester, recipient, and is not revoked.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded attestation ID).
-    /// @return True if the attestation is valid and the passerby passes the check, false otherwise.
-    function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+    function _check(address passerby, bytes calldata data) internal view override {
         super._check(passerby, data);
 
         bytes32 attestationId = abi.decode(data, (bytes32));
@@ -77,7 +76,5 @@ contract EASExcubia is Excubia {
         if (attestation.attester != ATTESTER) revert UnexpectedAttester();
         if (attestation.recipient != passerby) revert UnexpectedRecipient();
         if (attestation.revocationTime != 0) revert RevokedAttestation();
-
-        return true;
     }
 }

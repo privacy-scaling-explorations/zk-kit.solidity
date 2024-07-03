@@ -25,9 +25,6 @@ interface IExcubia {
     /// @notice Error thrown when the gate address has been already set.
     error GateAlreadySet();
 
-    /// @notice Error thrown when access is denied by the excubia.
-    error AccessDenied();
-
     /// @notice Error thrown when the passerby has already passed the gate.
     error AlreadyPassed();
 
@@ -45,6 +42,5 @@ interface IExcubia {
     /// @dev Defines the custom gate protection logic.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data that may be required for the check.
-    /// @return True if the passerby passes the check, false otherwise.
-    function check(address passerby, bytes calldata data) external view returns (bool);
+    function check(address passerby, bytes calldata data) external view;
 }

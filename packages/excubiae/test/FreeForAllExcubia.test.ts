@@ -72,9 +72,8 @@ describe("FreeForAllExcubia", function () {
     describe("check()", function () {
         it("should check", async () => {
             // `data` parameter value can be whatever (e.g., ZeroHash default).
-            const passed = await freeForAllExcubia.check(signerAddress, ZeroHash)
+            await expect(freeForAllExcubia.check(signerAddress, ZeroHash)).to.not.be.reverted
 
-            expect(passed).to.be.true
             // check does NOT change the state of the contract (see pass()).
             expect(await freeForAllExcubia.registeredPassersby(signerAddress)).to.be.false
         })

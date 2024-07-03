@@ -125,9 +125,8 @@ describe("EASExcubia", function () {
         })
 
         it("should pass the check", async () => {
-            const passed = await easExcubia.check(signerAddress, validAttestationId)
+            await expect(easExcubia.check(signerAddress, validAttestationId)).to.not.be.reverted
 
-            expect(passed).to.be.true
             // check does NOT change the state of the contract (see pass()).
             expect(await easExcubia.registeredAttestations(validAttestationId)).to.be.false
         })
