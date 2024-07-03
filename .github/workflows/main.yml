@@ -67,11 +67,16 @@ jobs:
 
             - run: yarn compile
 
-            - name: Upload compilation results
+            - name: Upload compilation results (hardhat)
               uses: actions/upload-artifact@v4
               with:
                   name: all-artifacts
                   path: packages/**/artifacts/**
+            - name: Upload compilation results (forge)
+              uses: actions/upload-artifact@v4
+              with:
+                  name: all-artifacts-forge
+                  path: packages/**/out/**
 
     style:
         needs: deps
@@ -97,6 +102,11 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
+            # TODO: right now forge and node tooling coexist, eventually keep only forge action
+            - uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: nightly
+
             - uses: actions/setup-node@v4
               with:
                   node-version: 20
@@ -108,11 +118,10 @@ jobs:
               with:
                   name: all-artifacts
                   path: packages/
-
-            # TODO: right now forge and node tooling coexist, eventually keep only forge action
-            - uses: foundry-rs/foundry-toolchain@v1
+            - uses: actions/download-artifact@v4
               with:
-                  version: nightly
+                  name: all-artifacts-forge
+                  path: packages/
 
             - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Test
@@ -168,6 +177,11 @@ jobs:
               with:
                   path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
+            # TODO: right now forge and node tooling coexist, eventually keep only forge action
+            - uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: nightly
+
             - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Compile contracts
               run: |
