@@ -1,0 +1,4 @@
+[profile.default]
+remappings = [
+"poseidon-solidity/=lib/poseidon-solidity/contracts/",
+]
