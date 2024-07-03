@@ -31,10 +31,7 @@ contract FreeForAllExcubia is Excubia {
     /// @dev This function always returns true, signaling that any passerby is able to pass the gate.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded attestation ID).
-    /// @return True, allowing any passerby to pass the gate.
-    function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+    function _check(address passerby, bytes calldata data) internal view override {
         super._check(passerby, data);
-
-        return true;
     }
 }
