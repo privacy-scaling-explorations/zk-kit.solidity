@@ -60,6 +60,10 @@ jobs:
               with:
                   path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
+            # TODO: right now forge and node tooling coexist, eventually keep only forge action
+            - uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: nightly
 
             - run: yarn compile
 
