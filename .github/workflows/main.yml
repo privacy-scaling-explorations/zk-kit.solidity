@@ -188,7 +188,7 @@ jobs:
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
                   yarn workspace "$workspace" run compile
 
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir) && matrix.dir != 'lean-imt'
               name: Run slither
               uses: crytic/slither-action@v0.4.0
               id: slither
@@ -199,6 +199,17 @@ jobs:
                   sarif: results.sarif
                   slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
                   target: packages/${{ matrix.dir }}
+
+            - if: contains(needs.changed-files.outputs.modified_files, 'lean-imt')
+              name: Run slither
+              uses: crytic/slither-action@v0.4.0
+              id: slither
+              with:
+                  ignore-compile: true
+                  fail-on: none
+                  sarif: results.sarif
+                  slither-args: --filter-paths "test" --hardhat-ignore-compile --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
+                  target: packages/lean-imt
 
             - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Upload SARIF files
