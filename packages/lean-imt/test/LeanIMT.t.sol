@@ -12,11 +12,11 @@ contract LeanIMTTest is Test {
 
     LeanIMTData private imt;
 
-    function boundLeaf(uint256 leaf) private view returns (uint256) {
+    function boundLeaf(uint256 leaf) private pure returns (uint256) {
         return bound(leaf, 1, SNARK_SCALAR_FIELD - 1);
     }
 
-    function boundLeaves(uint256[] calldata leaves) private view returns (uint256[] memory) {
+    function boundLeaves(uint256[] calldata leaves) private pure returns (uint256[] memory) {
         uint256[] memory boundedLeaves = new uint256[](leaves.length);
         for (uint256 i = 0; i < leaves.length; i++) {
             boundedLeaves[i] = boundLeaf(leaves[i]);
