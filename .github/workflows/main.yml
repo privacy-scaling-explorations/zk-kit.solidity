@@ -152,67 +152,30 @@ jobs:
                   echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
     slither:
-        if: needs.changed-files.outputs.any_changed == 'true'
-        needs: [changed-files, set-matrix, deps]
+        if: contains(needs.changed-files.outputs.modified_files, 'lean-imt')
+        needs: [changed-files, compile]
         runs-on: ubuntu-latest
         permissions:
             contents: read
             security-events: write
-        strategy:
-            matrix:
-                dir: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
         steps:
             - uses: actions/checkout@v4
-
-            # FIXME this does not work as a way to restore compilation results for slither job but it does for the compile job ??
-            #- uses: actions/download-artifact@v4
-            #  with:
-            #      name: all-artifacts
-            #      path: packages/
-
-            - uses: actions/setup-node@v4
+            - uses: actions/download-artifact@v4
               with:
-                  node-version: 20
-            - uses: actions/cache/restore@v4
-              with:
-                  path: node_modules
-                  key: ${{ needs.deps.outputs.cache-key }}
-            # TODO: right now forge and node tooling coexist, eventually keep only forge action
-            - uses: foundry-rs/foundry-toolchain@v1
-              with:
-                  version: nightly
+                  name: all-artifacts-forge
+                  path: packages/
 
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
-              name: Compile contracts
-              run: |
-                  workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
-                  yarn workspace "$workspace" run compile
-
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir) && matrix.dir != 'lean-imt'
-              name: Run slither
+            - name: Run slither
               uses: crytic/slither-action@v0.4.0
               id: slither
               with:
                   ignore-compile: true
-                  node-version: 20
                   fail-on: none
                   sarif: results.sarif
                   slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
                   target: packages/${{ matrix.dir }}
 
-            - if: contains(needs.changed-files.outputs.modified_files, 'lean-imt')
-              name: Run slither
-              uses: crytic/slither-action@v0.4.0
-              id: slither
-              with:
-                  ignore-compile: true
-                  fail-on: none
-                  sarif: results.sarif
-                  slither-args: --filter-paths "test" --hardhat-ignore-compile --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
-                  target: packages/lean-imt
-
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
-              name: Upload SARIF files
+            - name: Upload SARIF files
               uses: github/codeql-action/upload-sarif@v3
               with:
                   sarif_file: ${{ steps.slither.outputs.sarif }}
