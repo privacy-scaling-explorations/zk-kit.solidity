@@ -251,7 +251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ethereum-attestation-service/eas-contracts@npm:^1.7.1":
+"@ethereum-attestation-service/eas-contracts@npm:1.7.1":
   version: 1.7.1
   resolution: "@ethereum-attestation-service/eas-contracts@npm:1.7.1"
   dependencies:
@@ -1150,7 +1150,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@openzeppelin/contracts@npm:^5.0.2":
+"@openzeppelin/contracts@npm:5.0.2":
   version: 5.0.2
   resolution: "@openzeppelin/contracts@npm:5.0.2"
   checksum: 10/938ebffbdade7dc59ea3df5b562c0e457bbefde9d82be8fa2acfd11da887df11653ac07922f41746b80cdbc106430e1e6978ce244fe99b00a7d9dc1418fc7670
@@ -1222,7 +1222,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@semaphore-protocol/contracts@npm:^4.0.0-beta.16":
+"@semaphore-protocol/contracts@npm:4.0.0-beta.16":
   version: 4.0.0-beta.16
   resolution: "@semaphore-protocol/contracts@npm:4.0.0-beta.16"
   dependencies:
@@ -1564,9 +1564,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@zk-kit/excubiae@workspace:packages/excubiae/contracts"
   dependencies:
-    "@ethereum-attestation-service/eas-contracts": "npm:^1.7.1"
-    "@openzeppelin/contracts": "npm:^5.0.2"
-    "@semaphore-protocol/contracts": "npm:^4.0.0-beta.16"
+    "@ethereum-attestation-service/eas-contracts": "npm:1.7.1"
+    "@openzeppelin/contracts": "npm:5.0.2"
+    "@semaphore-protocol/contracts": "npm:4.0.0-beta.16"
   languageName: unknown
   linkType: soft
 

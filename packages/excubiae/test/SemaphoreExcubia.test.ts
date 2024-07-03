@@ -17,8 +17,8 @@ describe("SemaphoreExcubia", function () {
     let mockSemaphore: MockSemaphore
     let mockSemaphoreAddress: string
 
-    const validGroupId = 1n
-    const invalidGroupId = 2n
+    const validGroupId = 0n
+    const invalidGroupId = 1n
 
     const validProof = {
         merkleTreeDepth: 1n,
@@ -169,10 +169,9 @@ describe("SemaphoreExcubia", function () {
             )
         })
 
-        it("should pass the check", async () => {
-            const passed = await semaphoreExcubia.check(signerAddress, encodedValidProof)
+        it("should check", async () => {
+            await expect(semaphoreExcubia.check(signerAddress, encodedValidProof)).to.not.be.reverted
 
-            expect(passed).to.be.true
             // check does NOT change the state of the contract (see pass()).
             expect(await semaphoreExcubia.passedNullifiers(validProof.nullifier)).to.be.false
         })

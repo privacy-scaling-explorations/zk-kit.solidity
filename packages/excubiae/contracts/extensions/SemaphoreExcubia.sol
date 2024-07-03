@@ -39,7 +39,7 @@ contract SemaphoreExcubia is Excubia {
 
         SEMAPHORE = ISemaphore(_semaphore);
 
-        if (ISemaphore(_semaphore).groupCounter() < _groupId) revert InvalidGroup();
+        if (ISemaphore(_semaphore).groupCounter() <= _groupId) revert InvalidGroup();
 
         GROUP_ID = _groupId;
     }
@@ -63,8 +63,7 @@ contract SemaphoreExcubia is Excubia {
     /// @dev Checks if the proof matches the group ID, scope, and is valid.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (i.e., encoded Semaphore proof).
-    /// @return True if the proof is valid and the passerby passes the check, false otherwise.
-    function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+    function _check(address passerby, bytes calldata data) internal view override {
         super._check(passerby, data);
 
         ISemaphore.SemaphoreProof memory proof = abi.decode(data, (ISemaphore.SemaphoreProof));
@@ -72,7 +71,5 @@ contract SemaphoreExcubia is Excubia {
         if (GROUP_ID != proof.scope) revert UnexpectedScope();
 
         if (!SEMAPHORE.verifyProof(GROUP_ID, proof)) revert InvalidProof();
-
-        return true;
     }
 }
