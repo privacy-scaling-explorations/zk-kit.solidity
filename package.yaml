@@ -12,20 +12,14 @@ scripts:
         yarn workspace @zk-kit/${0}.sol version ${1} &&
         yarn remove:stable-version-field ${0} &&
         NO_HOOK=1 git commit -am "chore(${0}): v${1}" &&
-        git tag ${0}.sol-v${1}'
-    version:publish: >-
-        yarn workspaces foreach -A --no-private npm publish --tolerate-republish
-        --access public
+        git tag ${0}.sol-v${1}
+    version:publish: yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public
     version:release: changelogithub
     format: prettier -c .
     format:write: prettier -w .
     remove:stable-version-field: scripts/remove-stable-version-field.ts ${0} && yarn format:write
     postinstall: husky && git config --local core.editor cat
-keywords:
-    - solidity
-    - monorepo
-    - zero-knowledge
-    - zk-snarks
+keywords: [solidity, monorepo, zero-knowledge, zk-snarks]
 packageManager: pnpm@9.4.0
 devDependencies:
     "@commitlint/cli": ^18.6.1
