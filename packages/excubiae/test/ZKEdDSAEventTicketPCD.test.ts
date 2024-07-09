@@ -228,7 +228,7 @@ describe("ZKEdDSAEventTicketPCDExcubia", function () {
             ).to.be.revertedWithCustomError(zkEdDSAEventTicketPCDExcubia, "InvalidProof")
         })
 
-        it("should pass the check", async () => {
+        it("should pass", async () => {
             const tx = await zkEdDSAEventTicketPCDExcubia.connect(gate).pass(signerAddress, encodedValidProof)
             const receipt = await tx.wait()
             const event = zkEdDSAEventTicketPCDExcubia.interface.parseLog(

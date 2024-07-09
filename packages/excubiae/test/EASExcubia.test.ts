@@ -124,11 +124,11 @@ describe("EASExcubia", function () {
             )
         })
 
-        it("should pass the check", async () => {
+        it("should check", async () => {
             await expect(easExcubia.check(signerAddress, validAttestationId)).to.not.be.reverted
 
             // check does NOT change the state of the contract (see pass()).
-            expect(await easExcubia.registeredAttestations(validAttestationId)).to.be.false
+            expect(await easExcubia.passedAttestations(validAttestationId)).to.be.false
         })
     })
 
@@ -163,7 +163,7 @@ describe("EASExcubia", function () {
             ).to.be.revertedWithCustomError(easExcubia, "UnexpectedAttester")
         })
 
-        it("should pass the check", async () => {
+        it("should pass", async () => {
             const tx = await easExcubia.connect(gate).pass(signerAddress, validAttestationId)
             const receipt = await tx.wait()
             const event = EASExcubiaContract.interface.parseLog(
@@ -178,7 +178,7 @@ describe("EASExcubia", function () {
             expect(receipt?.status).to.eq(1)
             expect(event.args.passerby).to.eq(signerAddress)
             expect(event.args.gate).to.eq(gateAddress)
-            expect(await easExcubia.registeredAttestations(validAttestationId)).to.be.true
+            expect(await easExcubia.passedAttestations(validAttestationId)).to.be.true
         })
 
         it("should prevent to pass twice", async () => {

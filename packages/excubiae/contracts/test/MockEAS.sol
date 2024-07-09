@@ -16,7 +16,6 @@ contract MockEAS is IEAS {
     mapping(bytes32 => Attestation) private mockedAttestations;
 
     /// MOCKS ///
-
     /// @notice Constructor to initialize the mock contract with predefined attestations.
     /// @param _recipient The recipient address used in mocked attestations.
     /// @param _attester The attester address used in mocked attestations.

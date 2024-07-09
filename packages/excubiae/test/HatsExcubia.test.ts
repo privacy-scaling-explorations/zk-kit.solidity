@@ -115,7 +115,7 @@ describe("HatsExcubia", function () {
             ).to.be.revertedWithCustomError(hatsExcubia, "NotWearingCriterionHat")
         })
 
-        it("should pass the check", async () => {
+        it("should check", async () => {
             await expect(hatsExcubia.check(signerAddress, encodedValidCriterionHat)).to.not.be.reverted
 
             // check does NOT change the state of the contract (see pass()).
@@ -144,7 +144,7 @@ describe("HatsExcubia", function () {
             ).to.be.revertedWithCustomError(hatsExcubia, "NotWearingCriterionHat")
         })
 
-        it("should pass the check", async () => {
+        it("should pass", async () => {
             const tx = await hatsExcubia.connect(gate).pass(signerAddress, encodedValidCriterionHat)
             const receipt = await tx.wait()
             const event = HatsExcubiaContract.interface.parseLog(

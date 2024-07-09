@@ -123,7 +123,7 @@ describe("GitcoinPassportExcubia", function () {
             ).to.be.revertedWithCustomError(gitcoinPassportExcubia, "InsufficientScore")
         })
 
-        it("should pass the check", async () => {
+        it("should check", async () => {
             await gitcoinPassportExcubia.check(signerAddress, encodedDummyData)
             await expect(gitcoinPassportExcubia.check(signerAddress, encodedDummyData)).to.not.be.reverted
 
@@ -145,7 +145,7 @@ describe("GitcoinPassportExcubia", function () {
             ).to.be.revertedWithCustomError(gitcoinPassportExcubia, "InsufficientScore")
         })
 
-        it("should pass the check", async () => {
+        it("should pass", async () => {
             const tx = await gitcoinPassportExcubia.connect(gate).pass(signerAddress, encodedDummyData)
             const receipt = await tx.wait()
             const event = GitcoinPassportExcubiaContract.interface.parseLog(

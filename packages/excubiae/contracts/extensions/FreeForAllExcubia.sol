@@ -11,8 +11,8 @@ contract FreeForAllExcubia is Excubia {
     /// @notice Constructor for the FreeForAllExcubia contract.
     constructor() {}
 
-    /// @notice Mapping to track already registered passersby.
-    mapping(address => bool) public registeredPassersby;
+    /// @notice Mapping to track already passed passersby.
+    mapping(address => bool) public passedPassersby;
 
     /// @notice Internal function to handle the gate passing logic.
     /// @dev This function calls the parent `_pass` function and then tracks the passerby.
@@ -20,11 +20,11 @@ contract FreeForAllExcubia is Excubia {
     /// @param data Additional data required for the pass (not used in this implementation).
     function _pass(address passerby, bytes calldata data) internal override {
         // Avoiding passing the gate twice with the same address.
-        if (registeredPassersby[passerby]) revert AlreadyPassed();
+        if (passedPassersby[passerby]) revert AlreadyPassed();
 
         super._pass(passerby, data);
 
-        registeredPassersby[passerby] = true;
+        passedPassersby[passerby] = true;
     }
 
     /// @notice Internal function to handle the gate protection logic.

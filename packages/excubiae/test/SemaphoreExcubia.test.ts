@@ -195,7 +195,7 @@ describe("SemaphoreExcubia", function () {
                 semaphoreExcubia.connect(gate).pass(signerAddress, encodedInvalidProof)
             ).to.be.revertedWithCustomError(semaphoreExcubia, "InvalidProof")
         })
-        it("should pass the check", async () => {
+        it("should pass", async () => {
             const tx = await semaphoreExcubia.connect(gate).pass(signerAddress, encodedValidProof)
             const receipt = await tx.wait()
             const event = SemaphoreExcubiaContract.interface.parseLog(

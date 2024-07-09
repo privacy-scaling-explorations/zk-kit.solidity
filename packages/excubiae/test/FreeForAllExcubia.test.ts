@@ -75,7 +75,7 @@ describe("FreeForAllExcubia", function () {
             await expect(freeForAllExcubia.check(signerAddress, ZeroHash)).to.not.be.reverted
 
             // check does NOT change the state of the contract (see pass()).
-            expect(await freeForAllExcubia.registeredPassersby(signerAddress)).to.be.false
+            expect(await freeForAllExcubia.passedPassersby(signerAddress)).to.be.false
         })
     })
 
@@ -103,7 +103,7 @@ describe("FreeForAllExcubia", function () {
             expect(receipt?.status).to.eq(1)
             expect(event.args.passerby).to.eq(signerAddress)
             expect(event.args.gate).to.eq(gateAddress)
-            expect(await freeForAllExcubia.registeredPassersby(signerAddress)).to.be.true
+            expect(await freeForAllExcubia.passedPassersby(signerAddress)).to.be.true
         })
 
         it("should prevent to pass twice", async () => {

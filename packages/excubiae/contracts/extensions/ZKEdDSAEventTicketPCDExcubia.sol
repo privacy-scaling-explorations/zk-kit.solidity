@@ -52,7 +52,7 @@ contract ZKEdDSAEventTicketPCDExcubia is Excubia {
     }
 
     /// @notice Internal function to handle the passing logic with check.
-    /// @dev Calls the parent `_pass` function and registers the ticket ID to avoid passing the gate twice.
+    /// @dev Calls the parent `_pass` function and stores the ticket ID to avoid passing the gate twice.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (i.e., encoded proof).
     function _pass(address passerby, bytes calldata data) internal override {
