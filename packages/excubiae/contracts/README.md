@@ -72,10 +72,8 @@ contract MyExcubia is Excubia {
         // Implement your logic to prevent unwanted access here.
     }
 
-    function _check(address passerby, bytes calldata data) internal view override returns (bool) {
+    function _check(address passerby, bytes calldata data) internal view override {
         // Implement custom access control logic here.
-
-        return true;
     }
 
     // ...
