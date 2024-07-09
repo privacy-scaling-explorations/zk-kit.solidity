@@ -1,3 +1,4 @@
+#!node_modules/.bin/ts-node
 import { existsSync, readFileSync, writeFileSync } from "node:fs"
 
 async function main() {
