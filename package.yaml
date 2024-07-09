@@ -9,19 +9,13 @@ scripts:
     compile: yarn workspaces foreach -Ap run compile
     test: yarn workspaces foreach -Ap run test:coverage
     version:bump: scripts/version.sh
-    version:publish: >-
-        yarn workspaces foreach -A --no-private npm publish --tolerate-republish
-        --access public
+    version:publish: pnpm publish -r --access public
     version:release: changelogithub
     format: prettier -c .
     format:write: prettier -w .
     remove:stable-version-field: scripts/remove-stable-version-field.sh
     postinstall: husky && git config --local core.editor cat
-keywords:
-    - solidity
-    - monorepo
-    - zero-knowledge
-    - zk-snarks
+keywords: [solidity, monorepo, zero-knowledge, zk-snarks]
 packageManager: pnpm@9.4.0
 devDependencies:
     "@commitlint/cli": ^18.6.1
