@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.10;
+pragma solidity >=0.8.0;
 
 /// This interface has been copied & pasted from MACI.
 /// https://github.com/privacy-scaling-explorations/maci/blob/dev/contracts/contracts/interfaces/IHats.sol

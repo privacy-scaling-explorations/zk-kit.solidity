@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL
-pragma solidity ^0.8.9;
+pragma solidity >=0.8.0;
 
 /// This interface has been copied & pasted from
 /// https://github.com/gitcoinco/eas-proxy/blob/main/contracts/IGitcoinPassportDecoder.sol
