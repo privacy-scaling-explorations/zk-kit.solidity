@@ -1,5 +1,5 @@
 diff --git a/dist/index.mjs b/dist/index.mjs
-index 8d005a0e1896ec10e6d09755b5859587882e3f93..580cb17bb6be135b45e8060155d0eb5c2614b02c 100644
+index 8d005a0e1896ec10e6d09755b5859587882e3f93..d614c7a2a37df59a420b43d5b79a5c8eacd599ff 100644
 --- a/dist/index.mjs
 +++ b/dist/index.mjs
 @@ -192,7 +192,7 @@ function formatLine(commit, options) {
