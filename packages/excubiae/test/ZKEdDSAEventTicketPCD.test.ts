@@ -23,7 +23,8 @@ describe("ZKEdDSAEventTicketPCDExcubia", function () {
 
     let zkEdDSAEventTicketPCDVerifierAddress: string
 
-    let invalidSignersExcubiaContract: ZKEdDSAEventTicketPCDExcubia
+    let invalid0SignersExcubiaContract: ZKEdDSAEventTicketPCDExcubia
+    let invalid1SignersExcubiaContract: ZKEdDSAEventTicketPCDExcubia
     let invalidTicketIdExcubiaContract: ZKEdDSAEventTicketPCDExcubia
 
     // ETHBerlin 4 event ticket encoded proof.
@@ -66,13 +67,21 @@ describe("ZKEdDSAEventTicketPCDExcubia", function () {
             validEventTicketPCDSigner[1]
         )
 
-        invalidSignersExcubiaContract = await ZKEdDSAEventTicketPCDExcubiaContract.deploy(
+        invalid0SignersExcubiaContract = await ZKEdDSAEventTicketPCDExcubiaContract.deploy(
             zkEdDSAEventTicketPCDVerifierAddress,
             validEventId,
             invalidEventTicketPCDSigner[0],
+            validEventTicketPCDSigner[1]
+        )
+        invalid0SignersExcubiaContract.setGate(gateAddress)
+
+        invalid1SignersExcubiaContract = await ZKEdDSAEventTicketPCDExcubiaContract.deploy(
+            zkEdDSAEventTicketPCDVerifierAddress,
+            validEventId,
+            validEventTicketPCDSigner[0],
             invalidEventTicketPCDSigner[1]
         )
-        invalidSignersExcubiaContract.setGate(gateAddress)
+        invalid1SignersExcubiaContract.setGate(gateAddress)
 
         invalidTicketIdExcubiaContract = await ZKEdDSAEventTicketPCDExcubiaContract.deploy(
             zkEdDSAEventTicketPCDVerifierAddress,
@@ -150,7 +159,11 @@ describe("ZKEdDSAEventTicketPCDExcubia", function () {
     describe("check()", function () {
         it("should throw when the signers are not the ones expected", async () => {
             await expect(
-                invalidSignersExcubiaContract.check(signerAddress, encodedValidProof)
+                invalid0SignersExcubiaContract.check(signerAddress, encodedValidProof)
+            ).to.be.revertedWithCustomError(zkEdDSAEventTicketPCDExcubia, "InvalidSigners")
+
+            await expect(
+                invalid1SignersExcubiaContract.check(signerAddress, encodedValidProof)
             ).to.be.revertedWithCustomError(zkEdDSAEventTicketPCDExcubia, "InvalidSigners")
         })
 
@@ -189,7 +202,11 @@ describe("ZKEdDSAEventTicketPCDExcubia", function () {
 
         it("should throw when the signers are not the ones expected", async () => {
             await expect(
-                invalidSignersExcubiaContract.connect(gate).pass(signerAddress, encodedValidProof)
+                invalid0SignersExcubiaContract.connect(gate).pass(signerAddress, encodedValidProof)
+            ).to.be.revertedWithCustomError(zkEdDSAEventTicketPCDExcubia, "InvalidSigners")
+
+            await expect(
+                invalid1SignersExcubiaContract.connect(gate).pass(signerAddress, encodedValidProof)
             ).to.be.revertedWithCustomError(zkEdDSAEventTicketPCDExcubia, "InvalidSigners")
         })
 
