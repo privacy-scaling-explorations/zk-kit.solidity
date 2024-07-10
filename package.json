@@ -9,7 +9,7 @@
     "scripts": {
         "test": "forge test",
         "version:bump": "yarn workspace @zk-kit/${0}.sol version ${1} && yarn remove:stable-version-field ${0} && NO_HOOK=1 git commit -am \"chore(${0}): v${1}\" && git tag ${0}.sol-v${1}",
-        "version:publish": "yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public",
+        "version:publish": "scripts/publish.sh",
         "version:release": "changelogithub",
         "format": "prettier -c . && forge fmt --check",
         "format:write": "prettier -w . && forge fmt",
