@@ -3,11 +3,13 @@
     "version": "2.0.0-beta.12",
     "description": "Incremental Merkle tree implementation in Solidity.",
     "license": "MIT",
-    "files": [   "src"],
+    "files": [
+        "src"
+    ],
     "keywords": [
         "blockchain",
         "ethereum",
-        "hardhat",
+        "forge",
         "smart-contracts",
         "solidity",
         "libraries",

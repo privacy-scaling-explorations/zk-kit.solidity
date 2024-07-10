@@ -1007,25 +1007,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/imt.sol@workspace:packages/imt/contracts":
+"@zk-kit/imt.sol@workspace:packages/imt":
   version: 0.0.0-use.local
-  resolution: "@zk-kit/imt.sol@workspace:packages/imt/contracts"
+  resolution: "@zk-kit/imt.sol@workspace:packages/imt"
   dependencies:
     poseidon-solidity: "npm:0.0.5"
   languageName: unknown
   linkType: soft
 
-"@zk-kit/lazy-imt.sol@workspace:packages/lazy-imt/contracts":
+"@zk-kit/lazy-imt.sol@workspace:packages/lazy-imt":
   version: 0.0.0-use.local
-  resolution: "@zk-kit/lazy-imt.sol@workspace:packages/lazy-imt/contracts"
+  resolution: "@zk-kit/lazy-imt.sol@workspace:packages/lazy-imt"
   dependencies:
     poseidon-solidity: "npm:0.0.5"
   languageName: unknown
   linkType: soft
 
-"@zk-kit/lazytower.sol@workspace:packages/lazytower/contracts":
+"@zk-kit/lazytower.sol@workspace:packages/lazytower":
   version: 0.0.0-use.local
-  resolution: "@zk-kit/lazytower.sol@workspace:packages/lazytower/contracts"
+  resolution: "@zk-kit/lazytower.sol@workspace:packages/lazytower"
   dependencies:
     poseidon-solidity: "npm:0.0.5"
   languageName: unknown
