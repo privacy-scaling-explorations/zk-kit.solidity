@@ -2,7 +2,18 @@
 pragma solidity >=0.8.0;
 
 /* solhint-disable max-line-length */
-import {IEAS, ISchemaRegistry, AttestationRequest, MultiAttestationRequest, DelegatedAttestationRequest, MultiDelegatedAttestationRequest, DelegatedRevocationRequest, RevocationRequest, MultiRevocationRequest, MultiDelegatedRevocationRequest} from "@ethereum-attestation-service/eas-contracts/contracts/IEAS.sol";
+import {
+    IEAS,
+    ISchemaRegistry,
+    AttestationRequest,
+    MultiAttestationRequest,
+    DelegatedAttestationRequest,
+    MultiDelegatedAttestationRequest,
+    DelegatedRevocationRequest,
+    RevocationRequest,
+    MultiRevocationRequest,
+    MultiDelegatedRevocationRequest
+} from "@ethereum-attestation-service/eas-contracts/contracts/IEAS.sol";
 import {Attestation} from "@ethereum-attestation-service/eas-contracts/contracts/Common.sol";
 
 /// @title Mock Ethereum Attestation Service (EAS) Contract.
@@ -91,15 +102,12 @@ contract MockEAS is IEAS {
 
         mockedAttestations[bytes32(hex"0100000000000000000000000000000000000000000000000000000000000000")] = valid;
         mockedAttestations[bytes32(hex"0200000000000000000000000000000000000000000000000000000000000000")] = revoked;
-        mockedAttestations[
-            bytes32(hex"0300000000000000000000000000000000000000000000000000000000000000")
-        ] = invalidSchema;
-        mockedAttestations[
-            bytes32(hex"0400000000000000000000000000000000000000000000000000000000000000")
-        ] = invalidRecipient;
-        mockedAttestations[
-            bytes32(hex"0500000000000000000000000000000000000000000000000000000000000000")
-        ] = invalidAttester;
+        mockedAttestations[bytes32(hex"0300000000000000000000000000000000000000000000000000000000000000")] =
+            invalidSchema;
+        mockedAttestations[bytes32(hex"0400000000000000000000000000000000000000000000000000000000000000")] =
+            invalidRecipient;
+        mockedAttestations[bytes32(hex"0500000000000000000000000000000000000000000000000000000000000000")] =
+            invalidAttester;
     }
 
     /// @notice Retrieves a mocked attestation by its unique identifier.
@@ -112,25 +120,34 @@ contract MockEAS is IEAS {
     /// STUBS ///
     // The following functions are stubs and do not perform any meaningful operations.
     // They are placeholders to comply with the IEAS interface.
-    function attest(AttestationRequest calldata /*request*/) external payable override returns (bytes32) {
+    function attest(AttestationRequest calldata /*request*/ ) external payable override returns (bytes32) {
         return bytes32(0);
     }
 
-    function attestByDelegation(
-        DelegatedAttestationRequest calldata /*delegatedRequest*/
-    ) external payable override returns (bytes32) {
+    function attestByDelegation(DelegatedAttestationRequest calldata /*delegatedRequest*/ )
+        external
+        payable
+        override
+        returns (bytes32)
+    {
         return bytes32(0);
     }
 
-    function multiAttest(
-        MultiAttestationRequest[] calldata multiRequests
-    ) external payable override returns (bytes32[] memory) {
+    function multiAttest(MultiAttestationRequest[] calldata multiRequests)
+        external
+        payable
+        override
+        returns (bytes32[] memory)
+    {
         return new bytes32[](multiRequests.length);
     }
 
-    function multiAttestByDelegation(
-        MultiDelegatedAttestationRequest[] calldata multiDelegatedRequests
-    ) external payable override returns (bytes32[] memory) {
+    function multiAttestByDelegation(MultiDelegatedAttestationRequest[] calldata multiDelegatedRequests)
+        external
+        payable
+        override
+        returns (bytes32[] memory)
+    {
         return new bytes32[](multiDelegatedRequests.length);
     }
 
@@ -140,23 +157,25 @@ contract MockEAS is IEAS {
 
     function multiRevoke(MultiRevocationRequest[] calldata multiRequests) external payable override {}
 
-    function multiRevokeByDelegation(
-        MultiDelegatedRevocationRequest[] calldata multiDelegatedRequests
-    ) external payable override {}
+    function multiRevokeByDelegation(MultiDelegatedRevocationRequest[] calldata multiDelegatedRequests)
+        external
+        payable
+        override
+    {}
 
-    function timestamp(bytes32 /*data*/) external view override returns (uint64) {
+    function timestamp(bytes32 /*data*/ ) external view override returns (uint64) {
         return uint64(block.timestamp);
     }
 
-    function multiTimestamp(bytes32[] calldata /*data*/) external view override returns (uint64) {
+    function multiTimestamp(bytes32[] calldata /*data*/ ) external view override returns (uint64) {
         return uint64(block.timestamp);
     }
 
-    function revokeOffchain(bytes32 /*data*/) external view override returns (uint64) {
+    function revokeOffchain(bytes32 /*data*/ ) external view override returns (uint64) {
         return uint64(block.timestamp);
     }
 
-    function multiRevokeOffchain(bytes32[] calldata /*data*/) external view override returns (uint64) {
+    function multiRevokeOffchain(bytes32[] calldata /*data*/ ) external view override returns (uint64) {
         return uint64(block.timestamp);
     }
 
@@ -164,11 +183,11 @@ contract MockEAS is IEAS {
         return mockedAttestations[uid].uid != bytes32(0);
     }
 
-    function getTimestamp(bytes32 /*data*/) external view override returns (uint64) {
+    function getTimestamp(bytes32 /*data*/ ) external view override returns (uint64) {
         return uint64(block.timestamp);
     }
 
-    function getRevokeOffchain(address /*revoker*/, bytes32 /*data*/) external view override returns (uint64) {
+    function getRevokeOffchain(address, /*revoker*/ bytes32 /*data*/ ) external view override returns (uint64) {
         return uint64(block.timestamp);
     }
 

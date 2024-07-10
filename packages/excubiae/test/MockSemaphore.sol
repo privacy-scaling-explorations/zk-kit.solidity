@@ -45,36 +45,36 @@ contract MockSemaphore is ISemaphore {
         return 0;
     }
 
-    function createGroup(address /*admin*/) external pure override returns (uint256) {
+    function createGroup(address /*admin*/ ) external pure override returns (uint256) {
         return 0;
     }
 
-    function createGroup(address /*admin*/, uint256 /*merkleTreeDuration*/) external pure override returns (uint256) {
+    function createGroup(address, /*admin*/ uint256 /*merkleTreeDuration*/ ) external pure override returns (uint256) {
         return 0;
     }
 
-    function updateGroupAdmin(uint256 /*groupId*/, address /*newAdmin*/) external override {}
+    function updateGroupAdmin(uint256, /*groupId*/ address /*newAdmin*/ ) external override {}
 
-    function acceptGroupAdmin(uint256 /*groupId*/) external override {}
+    function acceptGroupAdmin(uint256 /*groupId*/ ) external override {}
 
-    function updateGroupMerkleTreeDuration(uint256 /*groupId*/, uint256 /*newMerkleTreeDuration*/) external override {}
+    function updateGroupMerkleTreeDuration(uint256, /*groupId*/ uint256 /*newMerkleTreeDuration*/ ) external override {}
 
     function addMember(uint256 groupId, uint256 identityCommitment) external override {}
 
     function addMembers(uint256 groupId, uint256[] calldata identityCommitments) external override {}
 
     function updateMember(
-        uint256 /*groupId*/,
-        uint256 /*oldIdentityCommitment*/,
-        uint256 /*newIdentityCommitment*/,
+        uint256, /*groupId*/
+        uint256, /*oldIdentityCommitment*/
+        uint256, /*newIdentityCommitment*/
         uint256[] calldata /*merkleProofSiblings*/
     ) external override {}
 
     function removeMember(
-        uint256 /*groupId*/,
-        uint256 /*identityCommitment*/,
+        uint256, /*groupId*/
+        uint256, /*identityCommitment*/
         uint256[] calldata /*merkleProofSiblings*/
     ) external override {}
 
-    function validateProof(uint256 /*groupId*/, SemaphoreProof calldata /*proof*/) external override {}
+    function validateProof(uint256, /*groupId*/ SemaphoreProof calldata /*proof*/ ) external override {}
 }
