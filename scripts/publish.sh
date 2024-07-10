@@ -29,7 +29,8 @@ main() {
  pkg="$1"
  clean_root "$pkg"
  publish_forge
- publish_npm
+ # TODO: uncomment
+ # publish_npm
 }
 
 main "$@"
