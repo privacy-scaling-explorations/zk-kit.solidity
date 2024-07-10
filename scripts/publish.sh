@@ -23,18 +23,18 @@ clean() {
 publish_forge_pkg() {
   pkg="$1"
   version=$(jq -r '.version' "packages/$pkg/package.json")
+  current_branch=$(git branch --show-current)
 
   git checkout -b "$pkg"
-
+  git pull --rebase origin "$pkg"
   clean "$pkg"
   mv "packages/$pkg"/src .
   mv "packages/$pkg"/README.md .
-  rm -fr "packages/$pkg"
+  rm -fr "packages"
+  git add src
   git commit -am "$version"
   git push origin "$pkg"
-
-  git checkout main
-
+  git checkout "$current_branch"
 }
 
 publish_forge_pkgs() {
