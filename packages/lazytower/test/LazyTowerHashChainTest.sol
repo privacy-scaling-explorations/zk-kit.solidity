@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.4;
 
-import "../LazyTowerHashChain.sol";
+import "../src/LazyTowerHashChain.sol";
 
 contract LazyTowerHashChainTest {
     using LazyTowerHashChain for LazyTowerHashChainData;

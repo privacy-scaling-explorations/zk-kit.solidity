@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.4;
 
-import {LazyIMT, LazyIMTData} from "../LazyIMT.sol";
+import {LazyIMT, LazyIMTData} from "../src/LazyIMT.sol";
 
 contract LazyIMTTest {
     LazyIMTData public data;
