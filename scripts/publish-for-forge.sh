@@ -22,10 +22,9 @@ maybe_publish_forge_pkg() {
   current_branch=$(git branch --show-current)
   latest_commit_msg=$(git log -1 --pretty=%B)
 
-  # latest already published
-  [ "$latest_commit_msg" = "$version" ] && return
-
   git checkout -b "$pkg"
+  # return early if latest already published
+  [ "$latest_commit_msg" = "$version" ] && return
   git status
   git pull --rebase origin "$pkg"
   clean "$pkg"
@@ -38,18 +37,12 @@ maybe_publish_forge_pkg() {
   git checkout "$current_branch"
 }
 
-maybe_publish_forge_pkgs() {
+main() {
   # http://mywiki.wooledge.org/BashFAQ/001
   # https://github.com/koalaman/shellcheck/wiki/SC2012
   find packages -maxdepth 1 -mindepth 1 -printf '%P\n' | while read -r pkg; do
     maybe_publish_forge_pkg "$pkg"
   done
-}
-
-main() {
-  maybe_publish_forge_pkgs
-  # TODO: uncomment
-  # publish_npm
 }
 
 main
