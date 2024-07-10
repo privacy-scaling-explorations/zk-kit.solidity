@@ -26,6 +26,7 @@ publish_forge_pkg() {
   current_branch=$(git branch --show-current)
 
   git checkout -b "$pkg"
+  git status
   git pull --rebase origin "$pkg"
   clean "$pkg"
   mv "packages/$pkg"/src .
