@@ -19,7 +19,7 @@ contract SemaphoreExcubia is Excubia {
     /// @notice Mapping to track which nullifiers have been used to avoid passing the
     /// gate twice using the same Semaphore identity.
     /// @dev The nullifier is derived from the hash of the secret and group identifier,
-    /// ensuring that the same identity cannot be registered twice for the same group.
+    /// ensuring that the same identity cannot pass twice using the same group.
     mapping(uint256 => bool) public passedNullifiers;
 
     /// @notice Error thrown when the group identifier does not match the expected one.
@@ -44,8 +44,13 @@ contract SemaphoreExcubia is Excubia {
         GROUP_ID = _groupId;
     }
 
+    /// @notice The trait of the Excubia contract.
+    function trait() external pure override returns (string memory) {
+        return "Semaphore";
+    }
+
     /// @notice Internal function to handle the passing logic with check.
-    /// @dev Calls the parent `_pass` function and registers the nullifier to avoid passing the gate twice.
+    /// @dev Calls the parent `_pass` function and stores the nullifier to avoid passing the gate twice.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (ie., encoded Semaphore proof).
     function _pass(address passerby, bytes calldata data) internal override {
@@ -54,9 +59,9 @@ contract SemaphoreExcubia is Excubia {
         // Avoiding passing the gate twice using the same nullifier.
         if (passedNullifiers[proof.nullifier]) revert AlreadyPassed();
 
-        super._pass(passerby, data);
-
         passedNullifiers[proof.nullifier] = true;
+
+        super._pass(passerby, data);
     }
 
     /// @notice Internal function to handle the gate protection (proof check) logic.

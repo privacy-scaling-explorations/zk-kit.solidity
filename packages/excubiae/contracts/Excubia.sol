@@ -22,6 +22,9 @@ abstract contract Excubia is IExcubia, Ownable(msg.sender) {
     }
 
     /// @inheritdoc IExcubia
+    function trait() external pure virtual returns (string memory) {}
+
+    /// @inheritdoc IExcubia
     function setGate(address _gate) public virtual onlyOwner {
         if (_gate == address(0)) revert ZeroAddress();
         if (gate != address(0)) revert GateAlreadySet();

@@ -12,9 +12,9 @@ contract ERC721Excubia is Excubia {
     /// @notice The ERC721 token contract interface.
     IERC721 public immutable NFT;
 
-    /// @notice Mapping to track which token IDs have been registered by the contract to
+    /// @notice Mapping to track which token IDs have passed by the gate to
     /// avoid passing the gate twice with the same token ID.
-    mapping(uint256 => bool) public registeredTokenIds;
+    mapping(uint256 => bool) public passedTokenIds;
 
     /// @notice Error thrown when the passerby is not the owner of the token.
     error UnexpectedTokenOwner();
@@ -27,19 +27,24 @@ contract ERC721Excubia is Excubia {
         NFT = IERC721(_erc721);
     }
 
+    /// @notice The trait of the Excubia contract.
+    function trait() external pure override returns (string memory) {
+        return "ERC721";
+    }
+
     /// @notice Internal function to handle the passing logic with check.
-    /// @dev Calls the parent `_pass` function and registers the NFT ID to avoid passing the gate twice.
+    /// @dev Calls the parent `_pass` function and stores the NFT ID to avoid passing the gate twice.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded token ID).
     function _pass(address passerby, bytes calldata data) internal override {
         uint256 tokenId = abi.decode(data, (uint256));
 
         // Avoiding passing the gate twice with the same token ID.
-        if (registeredTokenIds[tokenId]) revert AlreadyPassed();
+        if (passedTokenIds[tokenId]) revert AlreadyPassed();
+
+        passedTokenIds[tokenId] = true;
 
         super._pass(passerby, data);
-
-        registeredTokenIds[tokenId] = true;
     }
 
     /// @notice Internal function to handle the gate protection (token ownership check) logic.

@@ -61,6 +61,12 @@ describe("ERC721Excubia", function () {
         })
     })
 
+    describe("trait()", function () {
+        it("should return the trait of the Excubia contract", async () => {
+            expect(await erc721Excubia.trait()).to.be.equal("ERC721")
+        })
+    })
+
     describe("setGate()", function () {
         it("should fail to set the gate when the caller is not the owner", async () => {
             const [, notOwnerSigner] = await ethers.getSigners()
@@ -113,7 +119,7 @@ describe("ERC721Excubia", function () {
             await expect(erc721Excubia.check(signerAddress, encodedValidTokenId)).to.not.be.reverted
 
             // check does NOT change the state of the contract (see pass()).
-            expect(await erc721Excubia.registeredTokenIds(rawValidTokenId)).to.be.false
+            expect(await erc721Excubia.passedTokenIds(rawValidTokenId)).to.be.false
         })
     })
 
@@ -145,7 +151,7 @@ describe("ERC721Excubia", function () {
             expect(receipt?.status).to.eq(1)
             expect(event.args.passerby).to.eq(signerAddress)
             expect(event.args.gate).to.eq(gateAddress)
-            expect(await erc721Excubia.registeredTokenIds(rawValidTokenId)).to.be.true
+            expect(await erc721Excubia.passedTokenIds(rawValidTokenId)).to.be.true
         })
 
         it("should prevent to pass twice", async () => {

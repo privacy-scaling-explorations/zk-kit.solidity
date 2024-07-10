@@ -113,6 +113,12 @@ describe("SemaphoreExcubia", function () {
         })
     })
 
+    describe("trait()", function () {
+        it("should return the trait of the Excubia contract", async () => {
+            expect(await semaphoreExcubia.trait()).to.be.equal("Semaphore")
+        })
+    })
+
     describe("setGate()", function () {
         it("should fail to set the gate when the caller is not the owner", async () => {
             const [, notOwnerSigner] = await ethers.getSigners()
@@ -195,7 +201,7 @@ describe("SemaphoreExcubia", function () {
                 semaphoreExcubia.connect(gate).pass(signerAddress, encodedInvalidProof)
             ).to.be.revertedWithCustomError(semaphoreExcubia, "InvalidProof")
         })
-        it("should pass the check", async () => {
+        it("should pass", async () => {
             const tx = await semaphoreExcubia.connect(gate).pass(signerAddress, encodedValidProof)
             const receipt = await tx.wait()
             const event = SemaphoreExcubiaContract.interface.parseLog(

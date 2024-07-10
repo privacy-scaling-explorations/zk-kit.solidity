@@ -18,9 +18,9 @@ contract EASExcubia is Excubia {
     /// the only ones valid to pass the gate.
     address public immutable ATTESTER;
 
-    /// @notice Mapping to track which attestations have been registered by the contract to
-    /// avoid pass the gate twice with the same attestation.
-    mapping(bytes32 => bool) public registeredAttestations;
+    /// @notice Mapping to track which attestations have passed the gate to
+    /// avoid passing it twice using the same attestation.
+    mapping(bytes32 => bool) public passedAttestations;
 
     /// @notice Error thrown when the attestation does not match the designed schema.
     error UnexpectedSchema();
@@ -46,19 +46,24 @@ contract EASExcubia is Excubia {
         SCHEMA = _schema;
     }
 
+    /// @notice The trait of the Excubia contract.
+    function trait() external pure override returns (string memory) {
+        return "EAS";
+    }
+
     /// @notice Internal function to handle the passing logic with check.
-    /// @dev Calls the parent `_pass` function and registers the attestation to avoid pass the gate twice.
+    /// @dev Calls the parent `_pass` function and stores the attestation to avoid pass the gate twice.
     /// @param passerby The address of the entity attempting to pass the gate.
     /// @param data Additional data required for the check (e.g., encoded attestation ID).
     function _pass(address passerby, bytes calldata data) internal override {
         bytes32 attestationId = abi.decode(data, (bytes32));
 
         // Avoiding passing the gate twice using the same attestation.
-        if (registeredAttestations[attestationId]) revert AlreadyPassed();
+        if (passedAttestations[attestationId]) revert AlreadyPassed();
+
+        passedAttestations[attestationId] = true;
 
         super._pass(passerby, data);
-
-        registeredAttestations[attestationId] = true;
     }
 
     /// @notice Internal function to handle the gate protection (attestation check) logic.
