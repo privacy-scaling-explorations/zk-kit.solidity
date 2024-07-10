@@ -9,6 +9,8 @@ on:
             - "*"
 
     pull_request:
+        # test purposes
+        # TODO: remove
         branches: [forge-dev]
 
 jobs:
@@ -47,8 +49,8 @@ jobs:
             #      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     forge:
-      steps:
-        - uses: actions/checkout@v4
-        - uses: fregante/setup-git-user@v2.0.1
-        - name: Push contracts to dedicated branches
-          run: scripts/publish-for-forge.sh
+        steps:
+            - uses: actions/checkout@v4
+            - uses: fregante/setup-git-user@v2.0.1
+            - name: Push contracts to dedicated branches
+              run: scripts/publish-for-forge.sh
