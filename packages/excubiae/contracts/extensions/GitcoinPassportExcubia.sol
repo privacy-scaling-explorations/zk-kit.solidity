@@ -41,6 +41,11 @@ contract GitcoinPassportExcubia is Excubia {
         THRESHOLD_SCORE = _thresholdScore;
     }
 
+    /// @notice The trait of the Excubia contract.
+    function trait() external pure override returns (string memory) {
+        return "GitcoinPassport";
+    }
+
     /// @notice Internal function to handle the passing logic with check.
     /// @dev Calls the parent `_pass` function and stores the user to avoid passing the gate twice.
     /// @param passerby The address of the entity attempting to pass the gate.

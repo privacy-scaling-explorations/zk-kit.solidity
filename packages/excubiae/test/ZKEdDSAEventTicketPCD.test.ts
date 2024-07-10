@@ -116,6 +116,12 @@ describe("ZKEdDSAEventTicketPCDExcubia", function () {
         })
     })
 
+    describe("trait()", function () {
+        it("should return the trait of the Excubia contract", async () => {
+            expect(await zkEdDSAEventTicketPCDExcubia.trait()).to.be.equal("ZKEdDSAEventTicketPCD")
+        })
+    })
+
     describe("setGate()", function () {
         it("should fail to set the gate when the caller is not the owner", async () => {
             const [, notOwnerSigner] = await ethers.getSigners()

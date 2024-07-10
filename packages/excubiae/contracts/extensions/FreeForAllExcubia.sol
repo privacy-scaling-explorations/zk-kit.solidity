@@ -14,6 +14,11 @@ contract FreeForAllExcubia is Excubia {
     /// @notice Mapping to track already passed passersby.
     mapping(address => bool) public passedPassersby;
 
+    /// @notice The trait of the Excubia contract.
+    function trait() external pure override returns (string memory) {
+        return "FreeForAll";
+    }
+
     /// @notice Internal function to handle the gate passing logic.
     /// @dev This function calls the parent `_pass` function and then tracks the passerby.
     /// @param passerby The address of the entity passing the gate.

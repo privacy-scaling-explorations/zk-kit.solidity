@@ -61,6 +61,12 @@ describe("ERC721Excubia", function () {
         })
     })
 
+    describe("trait()", function () {
+        it("should return the trait of the Excubia contract", async () => {
+            expect(await erc721Excubia.trait()).to.be.equal("ERC721")
+        })
+    })
+
     describe("setGate()", function () {
         it("should fail to set the gate when the caller is not the owner", async () => {
             const [, notOwnerSigner] = await ethers.getSigners()

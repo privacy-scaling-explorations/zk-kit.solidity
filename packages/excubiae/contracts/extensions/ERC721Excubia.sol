@@ -27,6 +27,11 @@ contract ERC721Excubia is Excubia {
         NFT = IERC721(_erc721);
     }
 
+    /// @notice The trait of the Excubia contract.
+    function trait() external pure override returns (string memory) {
+        return "ERC721";
+    }
+
     /// @notice Internal function to handle the passing logic with check.
     /// @dev Calls the parent `_pass` function and stores the NFT ID to avoid passing the gate twice.
     /// @param passerby The address of the entity attempting to pass the gate.

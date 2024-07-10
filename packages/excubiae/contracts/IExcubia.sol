@@ -28,6 +28,10 @@ interface IExcubia {
     /// @notice Error thrown when the passerby has already passed the gate.
     error AlreadyPassed();
 
+    /// @notice Gets the trait of the Excubia contract.
+    /// @return The specific trait of the Excubia contract (e.g., SemaphoreExcubia has trait `Semaphore`).
+    function trait() external pure returns (string memory);
+
     /// @notice Sets the gate address.
     /// @dev Only the owner can set the destination gate address.
     /// @param _gate The address of the contract to be set as the gate.
