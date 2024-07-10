@@ -8,8 +8,8 @@ publish_npm() {
 
 clean() {
   pkg="$1"
-  exclude_regex="\./\.git\|\./packages\|\./\|\./packages/$pkg\|\./LICENSE"
-  find . -maxdepth 1 -not -regex "$exclude_regex" -exec rm -rf {} +
+  exclude_regex="\.\|\./\.git\|\./packages\|\./\|\./packages/$pkg\|\./LICENSE"
+  find . -maxdepth 2 -not -regex "$exclude_regex" -exec rm -rf {} +
 }
 
 publish_forge_pkg() {
