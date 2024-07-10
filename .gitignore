@@ -17,8 +17,9 @@ coverage.json
 # Dependency directories
 node_modules/
 
-# Forge build output
+# Forge
 out
+lcov.info
 
 # Hardhat
 artifacts
