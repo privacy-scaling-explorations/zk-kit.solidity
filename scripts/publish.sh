@@ -19,7 +19,8 @@ publish_forge_pkg() {
   git checkout -b "$pkg"
 
   clean "$pkg"
-  mv "packages/$pkg/{src,README.md}" .
+  mv "packages/$pkg"/src .
+  mv "packages/$pkg"/README.md .
   rm -fr "packages/$pkg"
   git commit -am "$version"
   git push origin "$pkg"
