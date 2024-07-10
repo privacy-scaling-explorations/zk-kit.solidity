@@ -19,25 +19,26 @@ clean() {
 maybe_publish_forge_pkg() {
   pkg="$1"
   version=$(jq -r '.version' "packages/$pkg/package.json")
-  current_branch=$(git branch --show-current)
   latest_commit_msg=$(git log -1 --pretty=%B)
 
   git checkout -b "$pkg"
   # return early if latest already published
   [ "$latest_commit_msg" = "$version" ] && return
-  git status
-  git pull --rebase origin "$pkg"
+  git pull --rebase origin "$pkg" 2>/dev/null || true
   clean "$pkg"
-  mv "packages/$pkg"/src .
-  mv "packages/$pkg"/README.md .
+  mkdir "$pkg"
+  mv "packages/$pkg"/src "$pkg"
+  mv "packages/$pkg"/README.md "$pkg"
+  mv LICENSE "$pkg"
   rm -fr "packages"
-  git add src
+  git add "$pkg"
   git commit -am "$version"
   git push origin "$pkg"
-  git checkout "$current_branch"
+  git checkout origin/"$GITHUB_HEAD_REF"
 }
 
 main() {
+  git fetch origin "$GITHUB_HEAD_REF"
   # http://mywiki.wooledge.org/BashFAQ/001
   # https://github.com/koalaman/shellcheck/wiki/SC2012
   find packages -maxdepth 1 -mindepth 1 -printf '%P\n' | while read -r pkg; do

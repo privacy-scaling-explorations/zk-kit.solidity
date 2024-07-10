@@ -16,7 +16,6 @@ on:
 jobs:
     npm:
         runs-on: ubuntu-latest
-
         steps:
             - uses: actions/checkout@v4
               with:
@@ -43,12 +42,12 @@ jobs:
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            # TODO: uncomment
-            # run: yarn changelogithub
-            #  env:
-            #      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+            - run: yarn changelogithub
+              env:
+                  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     forge:
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
             - uses: fregante/setup-git-user@v2.0.1
