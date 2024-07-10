@@ -40,11 +40,11 @@ library InternalQuinaryIMT {
 
         self.depth = depth;
 
-        for (uint8 i = 0; i < depth; ) {
+        for (uint8 i = 0; i < depth;) {
             self.zeroes[i] = zero;
             uint256[5] memory zeroChildren;
 
-            for (uint8 j = 0; j < 5; ) {
+            for (uint8 j = 0; j < 5;) {
                 zeroChildren[j] = zero;
                 unchecked {
                     ++j;
@@ -76,13 +76,13 @@ library InternalQuinaryIMT {
         uint256 index = self.numberOfLeaves;
         uint256 hash = leaf;
 
-        for (uint8 i = 0; i < depth; ) {
+        for (uint8 i = 0; i < depth;) {
             uint8 position = uint8(index % 5);
 
             self.lastSubtrees[i][position] = hash;
 
             if (position == 0) {
-                for (uint8 j = 1; j < 5; ) {
+                for (uint8 j = 1; j < 5;) {
                     self.lastSubtrees[i][j] = self.zeroes[i];
                     unchecked {
                         ++j;
@@ -127,11 +127,11 @@ library InternalQuinaryIMT {
         uint256 hash = newLeaf;
         uint256 updateIndex;
 
-        for (uint8 i = 0; i < depth; ) {
+        for (uint8 i = 0; i < depth;) {
             uint256[5] memory nodes;
             updateIndex += proofPathIndices[i] * 5 ** i;
 
-            for (uint8 j = 0; j < 5; ) {
+            for (uint8 j = 0; j < 5;) {
                 if (j < proofPathIndices[i]) {
                     nodes[j] = proofSiblings[i][j];
                 } else if (j == proofPathIndices[i]) {
@@ -198,14 +198,14 @@ library InternalQuinaryIMT {
 
         uint256 hash = leaf;
 
-        for (uint8 i = 0; i < depth; ) {
+        for (uint8 i = 0; i < depth;) {
             uint256[5] memory nodes;
 
             if (proofPathIndices[i] < 0 || proofPathIndices[i] >= 5) {
                 revert WrongMerkleProofPath();
             }
 
-            for (uint8 j = 0; j < 5; ) {
+            for (uint8 j = 0; j < 5;) {
                 if (j < proofPathIndices[i]) {
                     require(
                         proofSiblings[i][j] < SNARK_SCALAR_FIELD,

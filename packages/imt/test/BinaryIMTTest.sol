@@ -19,12 +19,9 @@ contract BinaryIMTTest {
         BinaryIMT.insert(data, leaf);
     }
 
-    function update(
-        uint256 leaf,
-        uint256 newLeaf,
-        uint256[] calldata proofSiblings,
-        uint8[] calldata proofPathIndices
-    ) external {
+    function update(uint256 leaf, uint256 newLeaf, uint256[] calldata proofSiblings, uint8[] calldata proofPathIndices)
+        external
+    {
         BinaryIMT.update(data, leaf, newLeaf, proofSiblings, proofPathIndices);
     }
 
