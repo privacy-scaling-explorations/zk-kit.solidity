@@ -27,9 +27,9 @@ contract FreeForAllExcubia is Excubia {
         // Avoiding passing the gate twice with the same address.
         if (passedPassersby[passerby]) revert AlreadyPassed();
 
-        super._pass(passerby, data);
-
         passedPassersby[passerby] = true;
+
+        super._pass(passerby, data);
     }
 
     /// @notice Internal function to handle the gate protection logic.

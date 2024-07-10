@@ -59,9 +59,9 @@ contract SemaphoreExcubia is Excubia {
         // Avoiding passing the gate twice using the same nullifier.
         if (passedNullifiers[proof.nullifier]) revert AlreadyPassed();
 
-        super._pass(passerby, data);
-
         passedNullifiers[proof.nullifier] = true;
+
+        super._pass(passerby, data);
     }
 
     /// @notice Internal function to handle the gate protection (proof check) logic.

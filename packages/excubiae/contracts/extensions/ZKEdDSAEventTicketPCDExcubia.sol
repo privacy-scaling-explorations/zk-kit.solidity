@@ -64,15 +64,13 @@ contract ZKEdDSAEventTicketPCDExcubia is Excubia {
         // Decode the given data bytes.
         (, , , uint256[38] memory _pubSignals) = abi.decode(data, (uint256[2], uint256[2][2], uint256[2], uint256[38]));
 
-        // Ticket ID is stored at index 0.
-        uint256 ticketId = _pubSignals[0];
-
         // Avoiding passing the gate twice using the same nullifier.
-        if (passedZKEdDSAEventTicketPCDs[ticketId]) revert AlreadyPassed();
+        /// @dev Ticket ID is stored at _pubSignals index 0.
+        if (passedZKEdDSAEventTicketPCDs[_pubSignals[0]]) revert AlreadyPassed();
+
+        passedZKEdDSAEventTicketPCDs[_pubSignals[0]] = true;
 
         super._pass(passerby, data);
-
-        passedZKEdDSAEventTicketPCDs[ticketId] = true;
     }
 
     /// @notice Internal function to handle the gate protection (proof check) logic.

@@ -61,9 +61,9 @@ contract EASExcubia is Excubia {
         // Avoiding passing the gate twice using the same attestation.
         if (passedAttestations[attestationId]) revert AlreadyPassed();
 
-        super._pass(passerby, data);
-
         passedAttestations[attestationId] = true;
+
+        super._pass(passerby, data);
     }
 
     /// @notice Internal function to handle the gate protection (attestation check) logic.

@@ -42,9 +42,9 @@ contract ERC721Excubia is Excubia {
         // Avoiding passing the gate twice with the same token ID.
         if (passedTokenIds[tokenId]) revert AlreadyPassed();
 
-        super._pass(passerby, data);
-
         passedTokenIds[tokenId] = true;
+
+        super._pass(passerby, data);
     }
 
     /// @notice Internal function to handle the gate protection (token ownership check) logic.

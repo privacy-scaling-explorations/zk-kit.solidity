@@ -53,9 +53,9 @@ contract GitcoinPassportExcubia is Excubia {
     function _pass(address passerby, bytes calldata data) internal override {
         if (passedUsers[passerby]) revert AlreadyPassed();
 
-        super._pass(passerby, data);
-
         passedUsers[passerby] = true;
+
+        super._pass(passerby, data);
     }
 
     /// @notice Internal function to handle the gate protection (score check) logic.

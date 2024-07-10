@@ -33,7 +33,9 @@ contract HatsExcubia is Excubia {
 
         HATS = IHatsMinimal(_hats);
 
-        for (uint256 i; i < _criterionHats.length; ++i) {
+        uint256 numberOfCriterionHats = _criterionHats.length;
+
+        for (uint256 i = 0; i < numberOfCriterionHats; ++i) {
             criterionHat[_criterionHats[i]] = true;
         }
     }
@@ -51,9 +53,9 @@ contract HatsExcubia is Excubia {
         // Avoiding passing the gate twice for the same user.
         if (passedUsers[passerby]) revert AlreadyPassed();
 
-        super._pass(passerby, data);
-
         passedUsers[passerby] = true;
+
+        super._pass(passerby, data);
     }
 
     /// @notice Internal function to handle the gate protection (hat check) logic.
