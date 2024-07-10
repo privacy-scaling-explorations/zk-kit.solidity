@@ -36,11 +36,15 @@ jobs:
             - name: Install dependencies
               run: yarn
 
+            - name: Setup git name and email to github actions user
+              uses: fregante/setup-git-user@v2.0.1
+
             - name: Publish packages
               run: yarn version:publish
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            #- run: yarn version:release
+            # TODO: uncomment
+            # run: yarn version:release
             #  env:
             #      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
