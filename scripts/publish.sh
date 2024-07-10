@@ -6,31 +6,40 @@ publish_npm() {
   yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public
 }
 
-clean_root() {
-    pkg="$1"
-    exclude_regex="\./\.git\|\./packages\|\./\|\./packages/$pkg\|\./LICENSE"
-    find . -maxdepth 1 -not -regex "$exclude_regex" -exec rm -rf {} +
+clean() {
+  pkg="$1"
+  exclude_regex="\./\.git\|\./packages\|\./\|\./packages/$pkg\|\./LICENSE"
+  find . -maxdepth 1 -not -regex "$exclude_regex" -exec rm -rf {} +
 }
 
 publish_forge_pkg() {
-    pkg="$1"
-    version=$(jq -r '.version' "packages/$pkg/package.json")
+  pkg="$1"
+  version=$(jq -r '.version' "packages/$pkg/package.json")
 
-    clean_root "$pkg"
-    mv "packages/$pkg/{src,README.md}" .
-    rm -fr "packages/$pkg"
+  git checkout -b "$pkg"
 
-    git checkout -b "$package"
-    git commit -am "$version"
-    git push origin "$package"
+  clean "$pkg"
+  mv "packages/$pkg/{src,README.md}" .
+  rm -fr "packages/$pkg"
+  git commit -am "$version"
+  git push origin "$pkg"
+
+  git checkout main
+
+}
+
+publish_forge_pkgs() {
+  # http://mywiki.wooledge.org/BashFAQ/001
+  # https://github.com/koalaman/shellcheck/wiki/SC2012
+  find packages -maxdepth 1 -mindepth 1 -printf '%P\n' | while read -r pkg; do
+    publish_forge_pkg "$pkg"
+  done
 }
 
 main() {
- pkg="$1"
- clean_root "$pkg"
- publish_forge
- # TODO: uncomment
- # publish_npm
+  publish_forge_pkgs
+  # TODO: uncomment
+  # publish_npm
 }
 
-main "$@"
+main
