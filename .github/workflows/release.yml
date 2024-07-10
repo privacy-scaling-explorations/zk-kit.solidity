@@ -41,6 +41,6 @@ jobs:
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - run: yarn version:release
-              env:
-                  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+            #- run: yarn version:release
+            #  env:
+            #      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
