@@ -1,0 +1,3 @@
+[profile.default]
+src = 'packages'
+test = 'packages'

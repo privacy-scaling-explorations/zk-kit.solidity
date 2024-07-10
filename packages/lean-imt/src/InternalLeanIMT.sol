@@ -62,7 +62,7 @@ library InternalLeanIMT {
 
         uint256 node = leaf;
 
-        for (uint256 level = 0; level < treeDepth; ) {
+        for (uint256 level = 0; level < treeDepth;) {
             if ((index >> level) & 1 == 1) {
                 node = PoseidonT3.hash([self.sideNodes[level], node]);
             } else {
@@ -93,7 +93,7 @@ library InternalLeanIMT {
         uint256 treeSize = self.size;
 
         // Check that all the new values are correct to be added.
-        for (uint256 i = 0; i < leaves.length; ) {
+        for (uint256 i = 0; i < leaves.length;) {
             if (leaves[i] >= SNARK_SCALAR_FIELD) {
                 revert LeafGreaterThanSnarkScalarField();
             } else if (leaves[i] == 0) {
@@ -138,12 +138,12 @@ library InternalLeanIMT {
         // The size of the next level.
         uint256 nextLevelSize = ((currentLevelSize - 1) >> 1) + 1;
 
-        for (uint256 level = 0; level < treeDepth; ) {
+        for (uint256 level = 0; level < treeDepth;) {
             // The number of nodes for the new level that will be created,
             // only the new values, not the entire level.
             uint256 numberOfNewNodes = nextLevelSize - nextLevelStartIndex;
             uint256[] memory nextLevelNewNodes = new uint256[](numberOfNewNodes);
-            for (uint256 i = 0; i < numberOfNewNodes; ) {
+            for (uint256 i = 0; i < numberOfNewNodes;) {
                 uint256 leftNode;
 
                 // Assign the left node using the saved path or the position in the array.
@@ -226,12 +226,10 @@ library InternalLeanIMT {
     /// @param newLeaf: The new value that will replace the oldLeaf in the tree.
     /// @param siblingNodes: An array of sibling nodes that are necessary to recalculate the path to the root.
     /// @return The new hash of the updated node after the leaf has been updated.
-    function _update(
-        LeanIMTData storage self,
-        uint256 oldLeaf,
-        uint256 newLeaf,
-        uint256[] calldata siblingNodes
-    ) internal returns (uint256) {
+    function _update(LeanIMTData storage self, uint256 oldLeaf, uint256 newLeaf, uint256[] calldata siblingNodes)
+        internal
+        returns (uint256)
+    {
         if (newLeaf >= SNARK_SCALAR_FIELD) {
             revert LeafGreaterThanSnarkScalarField();
         } else if (!_has(self, oldLeaf)) {
@@ -250,7 +248,7 @@ library InternalLeanIMT {
         // Cache tree depth to optimize gas
         uint256 treeDepth = self.depth;
 
-        for (uint256 level = 0; level < treeDepth; ) {
+        for (uint256 level = 0; level < treeDepth;) {
             if ((index >> level) & 1 == 1) {
                 if (siblingNodes[i] >= SNARK_SCALAR_FIELD) {
                     revert LeafGreaterThanSnarkScalarField();
@@ -306,11 +304,10 @@ library InternalLeanIMT {
     /// @param oldLeaf: The value of the leaf to be removed.
     /// @param siblingNodes: An array of sibling nodes required for updating the path to the root after removal.
     /// @return The new root hash of the tree after the leaf has been removed.
-    function _remove(
-        LeanIMTData storage self,
-        uint256 oldLeaf,
-        uint256[] calldata siblingNodes
-    ) internal returns (uint256) {
+    function _remove(LeanIMTData storage self, uint256 oldLeaf, uint256[] calldata siblingNodes)
+        internal
+        returns (uint256)
+    {
         return _update(self, oldLeaf, 0, siblingNodes);
     }
 

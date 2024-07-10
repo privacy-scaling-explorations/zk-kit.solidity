@@ -1,3 +1,4 @@
 {
-    "**/*.{js,ts,md,json,sol,yml,yaml}": "prettier --write"
+    "**/*.{js,ts,md,json,yml,yaml}": "prettier --write",
+    "**/*.sol": "forge fmt"
 }

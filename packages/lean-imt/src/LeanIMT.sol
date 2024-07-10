@@ -14,20 +14,17 @@ library LeanIMT {
         return InternalLeanIMT._insertMany(self, leaves);
     }
 
-    function update(
-        LeanIMTData storage self,
-        uint256 oldLeaf,
-        uint256 newLeaf,
-        uint256[] calldata siblingNodes
-    ) public returns (uint256) {
+    function update(LeanIMTData storage self, uint256 oldLeaf, uint256 newLeaf, uint256[] calldata siblingNodes)
+        public
+        returns (uint256)
+    {
         return InternalLeanIMT._update(self, oldLeaf, newLeaf, siblingNodes);
     }
 
-    function remove(
-        LeanIMTData storage self,
-        uint256 oldLeaf,
-        uint256[] calldata siblingNodes
-    ) public returns (uint256) {
+    function remove(LeanIMTData storage self, uint256 oldLeaf, uint256[] calldata siblingNodes)
+        public
+        returns (uint256)
+    {
         return InternalLeanIMT._remove(self, oldLeaf, siblingNodes);
     }
 
