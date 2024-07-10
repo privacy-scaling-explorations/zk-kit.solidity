@@ -38,11 +38,11 @@ library LazyIMT {
         return InternalLazyIMT._root(self, depth);
     }
 
-    function merkleProofElements(
-        LazyIMTData storage self,
-        uint40 index,
-        uint8 depth
-    ) public view returns (uint256[] memory) {
+    function merkleProofElements(LazyIMTData storage self, uint40 index, uint8 depth)
+        public
+        view
+        returns (uint256[] memory)
+    {
         return InternalLazyIMT._merkleProofElements(self, index, depth);
     }
 

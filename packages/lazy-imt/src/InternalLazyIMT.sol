@@ -108,7 +108,7 @@ library InternalLazyIMT {
 
         uint256 hash = leaf;
 
-        for (uint8 i = 0; ; ) {
+        for (uint8 i = 0;;) {
             self.elements[_indexForElement(i, index)] = hash;
             // it's a left element so we don't hash until there's a right element
             if (index & 1 == 0) break;
@@ -128,7 +128,7 @@ library InternalLazyIMT {
 
         uint256 hash = leaf;
 
-        for (uint8 i = 0; true; ) {
+        for (uint8 i = 0; true;) {
             self.elements[_indexForElement(i, index)] = hash;
             uint256 levelCount = numberOfLeaves >> (i + 1);
             if (levelCount <= index >> 1) break;
@@ -176,12 +176,10 @@ library InternalLazyIMT {
         return levels[depth];
     }
 
-    function _levels(
-        LazyIMTData storage self,
-        uint40 numberOfLeaves,
-        uint8 depth,
-        uint256[] memory levels
-    ) internal view {
+    function _levels(LazyIMTData storage self, uint40 numberOfLeaves, uint8 depth, uint256[] memory levels)
+        internal
+        view
+    {
         require(depth <= MAX_DEPTH, "LazyIMT: depth must be <= MAX_DEPTH");
         require(numberOfLeaves > 0, "LazyIMT: number of leaves must be > 0");
         // this should always short circuit if self.numberOfLeaves == 0
@@ -193,7 +191,7 @@ library InternalLazyIMT {
             levels[0] = _defaultZero(0);
         }
 
-        for (uint8 i = 0; i < depth; ) {
+        for (uint8 i = 0; i < depth;) {
             if (index & 1 == 0) {
                 levels[i + 1] = PoseidonT3.hash([levels[i], _defaultZero(i)]);
             } else {
@@ -213,11 +211,11 @@ library InternalLazyIMT {
         }
     }
 
-    function _merkleProofElements(
-        LazyIMTData storage self,
-        uint40 index,
-        uint8 depth
-    ) internal view returns (uint256[] memory) {
+    function _merkleProofElements(LazyIMTData storage self, uint40 index, uint8 depth)
+        internal
+        view
+        returns (uint256[] memory)
+    {
         uint40 numberOfLeaves = self.numberOfLeaves;
         require(index < numberOfLeaves, "LazyIMT: leaf must exist");
 
@@ -243,7 +241,7 @@ library InternalLazyIMT {
         }
         index >>= 1;
 
-        for (uint8 i = 1; i < depth; ) {
+        for (uint8 i = 1; i < depth;) {
             uint256 currentLevelCount = numberOfLeaves >> i;
             if (index & 1 == 0) {
                 // if the element is an uncomputed edge node we'll use the value set
