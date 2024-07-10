@@ -17,7 +17,7 @@
         "credentials"
     ],
     "repository": "git@github.com:privacy-scaling-explorations/zk-kit.solidity.git",
-    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/gatekeepers",
+    "homepage": "https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/excubiae",
     "publishConfig": {
         "access": "public"
     },
