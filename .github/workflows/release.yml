@@ -8,7 +8,8 @@ on:
         tags:
             - "*"
 
-    pull_request: [forge-dev]
+    pull_request:
+        branches: [forge-dev]
 
 jobs:
     release:
