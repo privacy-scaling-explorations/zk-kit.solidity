@@ -178,7 +178,7 @@ yarn format:write
 
 ### Conventional commits
 
-Semaphore uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). A [command line utility](https://github.com/commitizen/cz-cli) to commit using the correct syntax can be used by running:
+ZK-Kit uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). A [command line utility](https://github.com/commitizen/cz-cli) to commit using the correct syntax can be used by running:
 
 ```bash
 yarn commit
@@ -208,7 +208,7 @@ yarn compile
 
 ```bash
 yarn version:bump <package-name> <version>
-# e.g. yarn version:bump utils 2.0.0
+# e.g. yarn version:bump imt.sol 2.0.0
 ```
 
 This step creates a commit and a git tag.
@@ -223,7 +223,7 @@ git push origin main
 
 ```bash
 git push origin <package-name>-<version>
-# e.g. git push origin utils-v2.0.0
+# e.g. git push origin imt.sol-v2.0.0
 ```
 
 After pushing the new git tag, a workflow will be triggered and will publish the package on [npm](https://www.npmjs.com/) and release a new version on Github with its changelogs automatically.
