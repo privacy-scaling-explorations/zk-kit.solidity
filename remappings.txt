@@ -1,5 +1,0 @@
-excubiae/=packages/excubiae/src
-imt/=packages/imt/src
-lazy-imt/=packages/lazy-imt/src
-lazytower/=packages/lazytower/src
-lean-imt/=packages/lean-imt/src
