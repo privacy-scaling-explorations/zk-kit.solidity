@@ -8,10 +8,14 @@ on:
         tags:
             - "*"
 
-jobs:
-    release:
-        runs-on: ubuntu-latest
+    pull_request:
+        # test purposes
+        # TODO: remove
+        branches: [forge-dev]
 
+jobs:
+    npm:
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
               with:
@@ -34,10 +38,18 @@ jobs:
               run: yarn
 
             - name: Publish packages
-              run: yarn version:publish
+              run: yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-            - run: yarn version:release
+            - run: yarn changelogithub
               env:
                   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    forge:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: fregante/setup-git-user@v2.0.1
+            - name: Push contracts to forge branch
+              run: scripts/publish-for-forge.sh

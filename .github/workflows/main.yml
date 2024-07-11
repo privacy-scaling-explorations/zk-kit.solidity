@@ -37,18 +37,18 @@ jobs:
     changed-files:
         runs-on: ubuntu-latest
         outputs:
-            any_changed: ${{ steps.changed-files.outputs.any_changed }}
-            modified_files: ${{ steps.changed-files.outputs.modified_files }}
+            any_sol_changed: ${{ steps.changed-files.outputs.any_changed }}
+            changed_files: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
         steps:
             - uses: actions/checkout@v4
             - name: Get changed files
               id: changed-files
               uses: tj-actions/changed-files@v44
               with:
-                  files: packages/**/*.{sol,json,ts}
+                  files: packages/**/*.sol
 
     compile:
-        if: needs.changed-files.outputs.any_changed == 'true'
+        if: needs.changed-files.outputs.any_sol_changed == 'true'
         needs: [changed-files, deps]
         runs-on: ubuntu-latest
         steps:
@@ -56,18 +56,20 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                   node-version: 20
+            # forge needs some deps coming from node_modules, so we need to restore it
             - uses: actions/cache/restore@v4
               with:
                   path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
-
-            - run: yarn compile
-
+            - uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: nightly
+            - run: forge compile
             - name: Upload compilation results
               uses: actions/upload-artifact@v4
               with:
-                  name: all-artifacts
-                  path: packages/**/artifacts/**
+                  name: out
+                  path: out/**
 
     style:
         needs: deps
@@ -77,6 +79,9 @@ jobs:
             - uses: actions/setup-node@v4
               with:
                   node-version: 20
+            - uses: foundry-rs/foundry-toolchain@v1
+              with:
+                  version: nightly
             - uses: actions/cache/restore@v4
               with:
                   path: node_modules
@@ -84,43 +89,35 @@ jobs:
 
             - run: yarn format
     tests:
-        if: needs.changed-files.outputs.any_changed == 'true'
-        needs: [changed-files, set-matrix, deps, compile]
+        if: needs.changed-files.outputs.any_sol_changed == 'true'
+        needs: [changed-files, deps, compile]
         runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                dir: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
-
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/setup-node@v4
+            - uses: actions/download-artifact@v4
               with:
-                  node-version: 20
+                  name: out
+                  path: out/
+            # forge needs some deps coming from node_modules, so we need to restore it
             - uses: actions/cache/restore@v4
               with:
                   path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
-            - uses: actions/download-artifact@v4
+            - uses: foundry-rs/foundry-toolchain@v1
               with:
-                  name: all-artifacts
-                  path: packages/
+                  version: nightly
 
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
-              name: Test
-              run: |
-                  workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
-                  yarn workspace "$workspace" run test:coverage
+            - run: forge coverage --report lcov
 
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir) && github.event_name == 'push' && github.ref == 'refs/heads/main'
+            - if: github.event_name == 'pull_request' && github.ref == 'refs/pull/32/merge' # TODO: switch back to push & refs/heads/main checks
               name: Coveralls
               uses: coverallsapp/github-action@v2
               with:
                   github-token: ${{ secrets.GITHUB_TOKEN }}
-                  parallel: true
-                  flag-name: run ${{ join(matrix.*, '-') }}
+                  file: lcov.info
 
     set-matrix:
-        if: needs.changed-files.outputs.any_changed == 'true'
+        if: needs.changed-files.outputs.any_sol_changed == 'true'
         needs: changed-files
         runs-on: ubuntu-latest
         outputs:
@@ -134,8 +131,8 @@ jobs:
                   echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
     slither:
-        if: needs.changed-files.outputs.any_changed == 'true'
-        needs: [changed-files, set-matrix, deps]
+        if: needs.changed-files.outputs.any_sol_changed == 'true'
+        needs: [changed-files, compile, set-matrix]
         runs-on: ubuntu-latest
         permissions:
             contents: read
@@ -145,27 +142,12 @@ jobs:
                 dir: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
         steps:
             - uses: actions/checkout@v4
-
-            # FIXME this does not work as a way to restore compilation results for slither job but it does for the compile job ??
-            #- uses: actions/download-artifact@v4
-            #  with:
-            #      name: all-artifacts
-            #      path: packages/
-
-            - uses: actions/setup-node@v4
+            - uses: actions/download-artifact@v4
               with:
-                  node-version: 20
-            - uses: actions/cache/restore@v4
-              with:
-                  path: node_modules
-                  key: ${{ needs.deps.outputs.cache-key }}
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
-              name: Compile contracts
-              run: |
-                  workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
-                  yarn workspace "$workspace" run compile
+                  name: out
+                  path: out/
 
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.changed_files, matrix.dir)
               name: Run slither
               uses: crytic/slither-action@v0.4.0
               id: slither
@@ -177,7 +159,7 @@ jobs:
                   slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
                   target: packages/${{ matrix.dir }}
 
-            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.changed_files, matrix.dir)
               name: Upload SARIF files
               uses: github/codeql-action/upload-sarif@v3
               with:
