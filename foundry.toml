@@ -1,6 +1,0 @@
-[profile.default]
-src = 'packages'
-test = 'packages'
-
-# TODO: update, temporarily ignoring all except lean-imt
-no_match_coverage = "^packages/(excubiae|imt|lazy-imt|lazytower)"
