@@ -5,14 +5,7 @@ permissions:
 
 on:
     push:
-        tags:
-            - "*"
-
-    pull_request:
-        # test purposes
-        # TODO: remove
-        branches: [forge-dev]
-
+        tags: ["*"]
 jobs:
     npm:
         runs-on: ubuntu-latest
