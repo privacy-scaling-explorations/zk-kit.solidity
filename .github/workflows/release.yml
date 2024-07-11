@@ -1,0 +1,55 @@
+name: release
+
+permissions:
+    contents: write
+
+on:
+    push:
+        tags:
+            - "*"
+
+    pull_request:
+        # test purposes
+        # TODO: remove
+        branches: [forge-dev]
+
+jobs:
+    npm:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+                  cache: yarn
+                  registry-url: "https://registry.npmjs.org"
+
+            - name: Authentication
+              run: |
+                  echo npmAuthToken: "$NODE_AUTH_TOKEN" >> ./.yarnrc.yml
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Install dependencies
+              run: yarn
+
+            - name: Publish packages
+              run: yarn workspaces foreach -A --no-private npm publish --tolerate-republish --access public
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - run: yarn changelogithub
+              env:
+                  GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    forge:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: fregante/setup-git-user@v2.0.1
+            - name: Push contracts to forge branch
+              run: scripts/publish-for-forge.sh
