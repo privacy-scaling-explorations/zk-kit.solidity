@@ -60,7 +60,15 @@
 -   Circom: https://github.com/privacy-scaling-explorations/zk-kit.circom
 -   Noir: https://github.com/privacy-scaling-explorations/zk-kit.noir
 
-## 📦 Packages
+## Install
+
+### ⚒️ [Forge](https://book.getfoundry.sh/)
+
+```commandline
+forge install privacy-scaling-explorations/zk-kit.solidity@forge
+```
+
+### 📦 Node Packages
 
 <table>
     <th>Package</th>
@@ -136,6 +144,28 @@
                 ❌
             </td>
         </tr>
+        <tr>
+            <td>
+                <a href="https://github.com/privacy-scaling-explorations/zk-kit.solidity/tree/main/packages/lazytower">
+                    @zk-kit/lazytower.sol
+                </a>
+            </td>
+            <td>
+                <!-- NPM version -->
+                <a href="https://npmjs.org/package/@zk-kit/lazytower.sol">
+                    <img src="https://img.shields.io/npm/v/@zk-kit/lazytower.sol.svg?style=flat-square" alt="NPM version" />
+                </a>
+            </td>
+            <td>
+                <!-- Downloads -->
+                <a href="https://npmjs.org/package/@zk-kit/lazytower.sol">
+                    <img src="https://img.shields.io/npm/dm/@zk-kit/lazytower.sol.svg?style=flat-square" alt="Downloads" />
+                </a>
+            </td>
+            <td>
+                 
+            </td>
+        </tr>
     <tbody>
 </table>
 
@@ -146,7 +176,7 @@
 -   🚀 Share ideas for new [features](https://github.com/privacy-scaling-explorations/zk-kit.solidity/issues/new?assignees=&labels=feature+%3Arocket%3A&template=---feature.md&title=)
 -   🐛 Create a report if you find any [bugs](https://github.com/privacy-scaling-explorations/zk-kit.solidity/issues/new?assignees=&labels=bug+%F0%9F%90%9B&template=---bug.md&title=) in the code
 
-## 🛠 Install
+## 🛠 Develop
 
 Clone this repository:
 
@@ -160,9 +190,9 @@ and install the dependencies:
 cd zk-kit.solidity && yarn
 ```
 
-## 📜 Usage
+### 📜 Usage
 
-### Code formatting
+#### Code formatting
 
 Run [Prettier](https://prettier.io/) to check formatting rules:
 
@@ -176,7 +206,7 @@ or to automatically format the code:
 yarn format:write
 ```
 
-### Conventional commits
+#### Conventional commits
 
 Semaphore uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). A [command line utility](https://github.com/commitizen/cz-cli) to commit using the correct syntax can be used by running:
 
@@ -186,7 +216,7 @@ yarn commit
 
 It will also automatically check that the modified files comply with ESLint and Prettier rules.
 
-### Testing
+#### Testing
 
 Test the code:
 
@@ -194,7 +224,7 @@ Test the code:
 yarn test
 ```
 
-### Build
+#### Build
 
 Compile all contracts:
 
@@ -202,7 +232,7 @@ Compile all contracts:
 yarn compile
 ```
 
-### Releases
+#### Releases
 
 1. Bump a new version of the package with:
 
