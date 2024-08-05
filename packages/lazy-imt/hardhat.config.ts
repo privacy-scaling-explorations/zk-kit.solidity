@@ -1,6 +1,7 @@
 import "@nomicfoundation/hardhat-toolbox"
 import { HardhatUserConfig } from "hardhat/config"
 import "./tasks/deploy-imt-test"
+import "dotenv/config"
 
 const hardhatConfig: HardhatUserConfig = {
     solidity: {
@@ -13,7 +14,9 @@ const hardhatConfig: HardhatUserConfig = {
     },
     gasReporter: {
         currency: "USD",
-        enabled: process.env.REPORT_GAS === "true"
+        enabled: process.env.REPORT_GAS === "true",
+        outputJSONFile: "gas-report-lazyimt.json",
+        outputJSON: process.env.REPORT_GAS_OUTPUT_JSON === "true"
     },
     typechain: {
         target: "ethers-v6"
