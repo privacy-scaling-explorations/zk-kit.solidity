@@ -348,7 +348,7 @@ describe("LazyIMT", () => {
                         const staticRoot = await lazyIMTTest.staticRoot(depth)
 
                         // If they match, proof is valid
-                        await expect(calculatedRoot).to.be.equal(staticRoot)
+                        expect(calculatedRoot).to.be.equal(staticRoot)
                     }
 
                     // Done with test, revert the tree state

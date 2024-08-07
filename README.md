@@ -176,6 +176,23 @@ or to automatically format the code:
 yarn format:write
 ```
 
+### Linting
+
+```bash
+yarn lint
+```
+
+Will lint all the packages with [`solhint`](https://github.com/protofire/solhint)
+
+### Static Analysis
+
+```bash
+yarn slither
+```
+
+Will perform a static analysis of all the contracts with [`slither`](https://github.com/crytic/slither) to identify potential vulnerabilities.  
+You'll need to [install slither](https://github.com/crytic/slither?tab=readme-ov-file#how-to-install) beforehand.
+
 ### Conventional commits
 
 ZK-Kit uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/). A [command line utility](https://github.com/commitizen/cz-cli) to commit using the correct syntax can be used by running:

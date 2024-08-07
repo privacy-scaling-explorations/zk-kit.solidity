@@ -9,7 +9,8 @@
         "test:report-gas": "REPORT_GAS=true hardhat test",
         "test:coverage": "hardhat coverage",
         "typechain": "hardhat typechain",
-        "lint": "solhint 'contracts/**/*.sol'"
+        "lint": "solhint 'contracts/**/*.sol'",
+        "slither": "slither . --include-paths contracts --exclude-dependencies --ignore-compile"
     },
     "devDependencies": {
         "@nomicfoundation/hardhat-chai-matchers": "^2.0.3",
