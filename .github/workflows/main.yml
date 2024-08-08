@@ -3,9 +3,7 @@ name: main
 on:
     push:
         branches: [main]
-        paths: ["**/*.js", "**/*.json", "**/*.md", "**/*.sol", "**/*.ts", "**/*.yaml", "**/*.yml"]
     pull_request:
-        paths: ["**/*.js", "**/*.json", "**/*.md", "**/*.sol", "**/*.ts", "**/*.yaml", "**/*.yml"]
 
 concurrency:
     group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -39,18 +37,18 @@ jobs:
     changed-files:
         runs-on: ubuntu-latest
         outputs:
-            sol_any_changed: ${{ steps.changed-files.outputs.any_changed }}
-            sol_modified_files: ${{ steps.changed-files.outputs.modified_files }}
+            any_changed: ${{ steps.changed-files.outputs.any_changed }}
+            modified_files: ${{ steps.changed-files.outputs.modified_files }}
         steps:
             - uses: actions/checkout@v4
             - name: Get changed files
               id: changed-files
               uses: tj-actions/changed-files@v44
               with:
-                  files: packages/**/*.sol
+                  files: packages/**/*.{json,sol,ts}
 
     compile:
-        if: needs.changed-files.outputs.sol_any_changed == 'true'
+        if: needs.changed-files.outputs.any_changed == 'true'
         needs: [changed-files, deps]
         runs-on: ubuntu-latest
         steps:
@@ -87,7 +85,7 @@ jobs:
             - run: yarn format
 
     _tests:
-        if: needs.changed-files.outputs.sol_any_changed == 'true'
+        if: needs.changed-files.outputs.any_changed == 'true'
         needs: compile
         runs-on: ubuntu-latest
         strategy:
@@ -108,13 +106,13 @@ jobs:
                   name: all-artifacts
                   path: packages/
 
-            - if: contains(needs.changed-files.outputs.sol_modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Test
               run: |
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
                   yarn workspace "$workspace" run test:coverage
 
-            - if: contains(needs.changed-files.outputs.sol_modified_files, matrix.dir) && github.event_name == 'push' && github.ref == 'refs/heads/main'
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir) && github.event_name == 'push' && github.ref == 'refs/heads/main'
               name: Coveralls
               uses: coverallsapp/github-action@v2
               with:
@@ -133,7 +131,7 @@ jobs:
               run: true
 
     set-matrix:
-        if: needs.changed-files.outputs.sol_any_changed == 'true'
+        if: needs.changed-files.outputs.any_changed == 'true'
         needs: changed-files
         runs-on: ubuntu-latest
         outputs:
@@ -147,7 +145,7 @@ jobs:
                   echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
     _slither:
-        if: needs.changed-files.outputs.sol_any_changed == 'true'
+        if: needs.changed-files.outputs.any_changed == 'true'
         needs: [changed-files, set-matrix, deps]
         runs-on: ubuntu-latest
         permissions:
@@ -172,13 +170,13 @@ jobs:
               with:
                   path: node_modules
                   key: ${{ needs.deps.outputs.cache-key }}
-            - if: contains(needs.changed-files.outputs.sol_modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Compile contracts
               run: |
                   workspace=$(jq -r '.name' packages/${{ matrix.dir }}/package.json)
                   yarn workspace "$workspace" run compile
 
-            - if: contains(needs.changed-files.outputs.sol_modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Run slither
               uses: crytic/slither-action@v0.4.0
               id: slither
@@ -190,7 +188,7 @@ jobs:
                   slither-args: --filter-paths "test" --exclude-dependencies --markdown-root ${{ github.server_url }}/${{ github.repository }}/blob/${{ github.sha }}/
                   target: packages/${{ matrix.dir }}
 
-            - if: contains(needs.changed-files.outputs.sol_modified_files, matrix.dir)
+            - if: contains(needs.changed-files.outputs.modified_files, matrix.dir)
               name: Upload SARIF files
               uses: github/codeql-action/upload-sarif@v3
               with:
