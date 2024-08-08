@@ -45,7 +45,7 @@ jobs:
               id: changed-files
               uses: tj-actions/changed-files@v44
               with:
-                  files: packages/**/*.{sol,json,ts}
+                  files: packages/**/*.{json,sol,ts}
 
     compile:
         if: needs.changed-files.outputs.any_changed == 'true'
@@ -83,9 +83,10 @@ jobs:
                   key: ${{ needs.deps.outputs.cache-key }}
 
             - run: yarn format
-    tests:
+
+    _tests:
         if: needs.changed-files.outputs.any_changed == 'true'
-        needs: [changed-files, set-matrix, deps, compile]
+        needs: compile
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -119,6 +120,16 @@ jobs:
                   parallel: true
                   flag-name: run ${{ join(matrix.*, '-') }}
 
+    tests:
+        needs: _tests
+        # workaround for https://github.com/orgs/community/discussions/13690
+        # https://stackoverflow.com/a/77066140/9771158
+        if: ${{ !(failure() || cancelled()) }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Tests OK (passed or skipped)
+              run: true
+
     set-matrix:
         if: needs.changed-files.outputs.any_changed == 'true'
         needs: changed-files
@@ -133,7 +144,7 @@ jobs:
                   matrix=$(ls -1 packages | jq -Rsc 'split("\n") | map(select(length > 0))')
                   echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
-    slither:
+    _slither:
         if: needs.changed-files.outputs.any_changed == 'true'
         needs: [changed-files, set-matrix, deps]
         runs-on: ubuntu-latest
@@ -194,3 +205,11 @@ jobs:
                       const header = '# Slither report'
                       const body = process.env.REPORT
                       await script({ github, context, header, body })
+
+    slither:
+        needs: _slither
+        if: ${{ !(failure() || cancelled()) }}
+        runs-on: ubuntu-latest
+        steps:
+            - name: Slither analysis OK (passed or skipped)
+              run: true
