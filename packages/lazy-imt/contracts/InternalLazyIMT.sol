@@ -221,9 +221,14 @@ library InternalLazyIMT {
         uint40 numberOfLeaves = self.numberOfLeaves;
         require(index < numberOfLeaves, "LazyIMT: leaf must exist");
 
+        // targetDepth = log2_floor(numberOfLeaves)
         uint8 targetDepth = 1;
-        while (uint40(2) ** uint40(targetDepth) < numberOfLeaves) {
-            targetDepth++;
+        {
+            uint40 exp = 2;
+            while (exp < numberOfLeaves) {
+                exp <<= 1;
+                targetDepth++;
+            }
         }
         require(depth >= targetDepth, "LazyIMT: proof depth");
         // pass depth -1 because we don't need the root value
