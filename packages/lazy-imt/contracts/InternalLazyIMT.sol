@@ -224,9 +224,9 @@ library InternalLazyIMT {
         // targetDepth = log2_floor(numberOfLeaves)
         uint8 targetDepth = 1;
         {
-            uint40 exp = 2;
-            while (exp < numberOfLeaves) {
-                exp <<= 1;
+            uint40 val = 2;
+            while (val < numberOfLeaves) {
+                val <<= 1;
                 targetDepth++;
             }
         }
