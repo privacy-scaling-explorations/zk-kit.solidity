@@ -11,7 +11,7 @@ log() {
 
 main() {
   if ! command -v slither >/dev/null; then
-    log "${RED}error: slither is required but is not installed${RESET}.\nFollow instructions at ${CYAN}https://github.com/crytic/slither?tab=readme-ov-file#how-to-install${RESET} and try again."
+    log "${RED}error: slither is required but is not installed${RESET}.\nFollow instructions at ${CYAN}https://github.com/crytic/slither#how-to-install${RESET} and try again."
     exit 1
   fi
 }
