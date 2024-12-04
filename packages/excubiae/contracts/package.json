@@ -1,7 +1,7 @@
 {
     "name": "@zk-kit/excubiae",
-    "version": "0.1.0",
-    "description": "A general purpose on-chain gatekeeping smart contract framework.",
+    "version": "0.1.1",
+    "description": "[DEPRECATED] A general purpose on-chain gatekeeping smart contract framework.",
     "license": "MIT",
     "files": [
         "*.sol",
@@ -10,6 +10,7 @@
         "LICENSE"
     ],
     "keywords": [
+        "deprecated",
         "blockchain",
         "ethereum",
         "hardhat",
