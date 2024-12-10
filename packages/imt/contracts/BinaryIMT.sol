@@ -40,13 +40,4 @@ library BinaryIMT {
     ) public {
         InternalBinaryIMT._remove(self, leaf, proofSiblings, proofPathIndices);
     }
-
-    function verify(
-        BinaryIMTData storage self,
-        uint256 leaf,
-        uint256[] calldata proofSiblings,
-        uint8[] calldata proofPathIndices
-    ) private view returns (bool) {
-        return InternalBinaryIMT._verify(self, leaf, proofSiblings, proofPathIndices);
-    }
 }
