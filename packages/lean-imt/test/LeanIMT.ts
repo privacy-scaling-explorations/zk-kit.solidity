@@ -267,6 +267,26 @@ describe("LeanIMT", () => {
 
             await expect(transaction).to.be.revertedWithCustomError(leanIMT, "LeafAlreadyExists")
         })
+        it("Should maintain correct tree state after multiple updates and inserts", async () => {
+            for (let i = 0; i < 5; i += 1) {
+                jsLeanIMT.insert(BigInt(i + 1))
+                await leanIMTTest.insert(i + 1)
+            }
+
+            for (let i = 0; i < 3; i += 1) {
+                jsLeanIMT.update(i, BigInt(i + 10))
+                const { siblings } = jsLeanIMT.generateProof(i)
+                await leanIMTTest.update(i + 1, i + 10, siblings)
+            }
+
+            for (let i = 5; i < 8; i += 1) {
+                jsLeanIMT.insert(BigInt(i + 1))
+                await leanIMTTest.insert(i + 1)
+            }
+
+            const root = await leanIMTTest.root()
+            expect(root).to.equal(jsLeanIMT.root)
+        })
     })
 
     describe("# remove", () => {
