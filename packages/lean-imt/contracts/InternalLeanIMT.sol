@@ -256,10 +256,6 @@ library InternalLeanIMT {
                     revert LeafGreaterThanSnarkScalarField();
                 }
 
-                if (self.sideNodes[level] == oldRoot) {
-                    self.sideNodes[level] = node;
-                }
-
                 node = PoseidonT3.hash([siblingNodes[i], node]);
                 oldRoot = PoseidonT3.hash([siblingNodes[i], oldRoot]);
 
