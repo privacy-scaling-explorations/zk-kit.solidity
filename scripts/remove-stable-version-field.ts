@@ -1,7 +1,11 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs"
 
 async function main() {
-    const projectDirectory = `packages/${process.argv[2]}`
+    let dotIndex = process.argv[2].lastIndexOf(".")
+
+    let packageName = dotIndex !== -1 ? process.argv[2].slice(0, dotIndex) : process.argv[2]
+
+    const projectDirectory = `packages/${packageName}`
 
     let filePath = `${projectDirectory}/package.json`
 
