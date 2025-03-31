@@ -1449,7 +1449,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@zk-kit/lean-imt.sol@npm:2.0.0, @zk-kit/lean-imt.sol@workspace:packages/lean-imt/contracts":
+"@zk-kit/lean-imt.sol@npm:2.0.0":
+  version: 2.0.0
+  resolution: "@zk-kit/lean-imt.sol@npm:2.0.0"
+  dependencies:
+    poseidon-solidity: "npm:0.0.5"
+  checksum: 10/094a1788905c380ed5c767184938d3aa0d0b3ba8ad92e8d6efae1243e4d15103484ec1224163ae7d0c43e0095ae19f28e41a7877d37398ff60dcadbf1eb27a77
+  languageName: node
+  linkType: hard
+
+"@zk-kit/lean-imt.sol@workspace:packages/lean-imt/contracts":
   version: 0.0.0-use.local
   resolution: "@zk-kit/lean-imt.sol@workspace:packages/lean-imt/contracts"
   dependencies:
